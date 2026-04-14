@@ -416,6 +416,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.veriorpies.parrelsync": {
+      "version": "https://github.com/VeriorPies/ParrelSync.git?path=/ParrelSync",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "610157ad762084380380148ba8ce14e266a6da97"
+    },
     "se.su.dsv.extralitylab.unity": {
       "version": "https://gitea.dsv.su.se/ExtralityLab/se.su.dsv.extralitylab.unity.git",
       "depth": 0,

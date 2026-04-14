@@ -8,9 +8,15 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/FlipperMR.unity
     guid: 7d385837e6aaaad4090fd56865b7ced9
+  - enabled: 0
+    path: Assets/Scenes/FusionScene.unity
+    guid: cfaeb10f55204455891c1ed08981fb2b
+  - enabled: 1
+    path: Assets/Scenes/FusionScene.unity
+    guid: cfaeb10f55204455891c1ed08981fb2b
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: 1ffd2ac139be04006942dcd13805c02e, type: 2}
