@@ -1749,7 +1749,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &401426442
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2691,6 +2691,94 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1032729615}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &523263257
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3511104126968277796, guid: 05440e8b21a177d40ad85a160375eda9, type: 3}
+      propertyPath: m_Name
+      value: volcano
+      objectReference: {fileID: 0}
+    - target: {fileID: 3824177327595692399, guid: 05440e8b21a177d40ad85a160375eda9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.295
+      objectReference: {fileID: 0}
+    - target: {fileID: 3824177327595692399, guid: 05440e8b21a177d40ad85a160375eda9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.135
+      objectReference: {fileID: 0}
+    - target: {fileID: 3824177327595692399, guid: 05440e8b21a177d40ad85a160375eda9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.565
+      objectReference: {fileID: 0}
+    - target: {fileID: 3824177327595692399, guid: 05440e8b21a177d40ad85a160375eda9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3824177327595692399, guid: 05440e8b21a177d40ad85a160375eda9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3824177327595692399, guid: 05440e8b21a177d40ad85a160375eda9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3824177327595692399, guid: 05440e8b21a177d40ad85a160375eda9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3824177327595692399, guid: 05440e8b21a177d40ad85a160375eda9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3824177327595692399, guid: 05440e8b21a177d40ad85a160375eda9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3824177327595692399, guid: 05440e8b21a177d40ad85a160375eda9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3511104126968277796, guid: 05440e8b21a177d40ad85a160375eda9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 523263259}
+  m_SourcePrefab: {fileID: 100100000, guid: 05440e8b21a177d40ad85a160375eda9, type: 3}
+--- !u!1 &523263258 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3511104126968277796, guid: 05440e8b21a177d40ad85a160375eda9, type: 3}
+  m_PrefabInstance: {fileID: 523263257}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &523263259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523263258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43f86b14a27b52f4f9298c33015b5c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Oculus.Interaction::Oculus.Interaction.Grabbable
+  _transferOnSecondSelection: 0
+  _addNewPointsToFront: 0
+  _forwardElement: {fileID: 0}
+  _oneGrabTransformer: {fileID: 0}
+  _twoGrabTransformer: {fileID: 0}
+  _targetTransform: {fileID: 0}
+  _maxGrabPoints: -1
+  _rigidbody: {fileID: 0}
+  _kinematicWhileSelected: 1
+  _throwWhenUnselected: 1
+  _forceKinematicDisabled: 0
 --- !u!1 &524417950
 GameObject:
   m_ObjectHideFlags: 0
@@ -7635,7 +7723,7 @@ Transform:
   m_GameObject: {fileID: 1396324182}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.264, z: -0.553}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12634,3 +12722,4 @@ SceneRoots:
   - {fileID: 293065510}
   - {fileID: 713890592}
   - {fileID: 401426446}
+  - {fileID: 523263257}
