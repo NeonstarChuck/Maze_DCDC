@@ -1,6 +1,7 @@
 using UnityEngine;
+using Fusion;
 
-public class ResetBall : MonoBehaviour
+public class ResetBall : NetworkBehaviour
 {
     private Vector3 startPosition;
     private Rigidbody rb;

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Fusion;
 // using UnityEngine.InputSystem;
 
 public abstract class InteractivePuzzlePieceXR<TComponent> : BaseInteractivePuzzlePieceXR
@@ -8,7 +9,7 @@ where TComponent : Component
 }
 
 
-public abstract class BaseInteractivePuzzlePieceXR : MonoBehaviour
+public abstract class BaseInteractivePuzzlePieceXR : NetworkBehaviour
 {
     public KeyCode interactKey = KeyCode.Space;
     // public InputActionReference interactActionReference;
@@ -68,13 +69,14 @@ public abstract class BaseInteractivePuzzlePieceXR : MonoBehaviour
             PlayOneTimeDeactivateAudio();
         }
     }
-    
-    public void FlipUp()
+
+    [Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.StateAuthority)]
+    public void RPC_FlipUp()
     {
         activateState = true;
     }
-
-    public void FlipDown()
+    [Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.StateAuthority)]
+    public void RPC_FlipDown()
     {
         activateState = false;
     }
