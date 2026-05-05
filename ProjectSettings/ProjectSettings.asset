@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DCDC
-  productName: DCDC_Maze
+  productName: DCDC_Maze_Evan_Small
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -146,9 +146,7 @@ PlayerSettings:
   bundleVersion: 0.1.0
   preloadedAssets:
   - {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  - {fileID: 0}
-  - {fileID: -637509041631011914, guid: 4dbaca235fb7145d3a1a4d2fa1faece4, type: 2}
-  - {fileID: 6946922771943816893, guid: d6ed2cfe1ca2d4c88ae8d28a98d20b8d, type: 2}
+  - {fileID: 11400000, guid: 39279330e1ef94397b4afedf25ef8b43, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -170,7 +168,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.4
   androidMinAspectRatio: 1
   applicationIdentifier:
-    Android: com.DCDC.DCDC_Maze
+    Android: com.DCDC.DCDC_Maze_Evan_Small
     Standalone: com.Unity-Technologies.com.unity.template.urp-blank
     iPhone: com.Unity-Technologies.com.unity.template.urp-blank
   buildNumber:
