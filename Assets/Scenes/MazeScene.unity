@@ -9521,7 +9521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: meta.xr.mrutilitykit::Meta.XR.MRUtilityKit.FindSpawnPositions
   SpawnOnStart: 1
-  SpawnObject: {fileID: 8948107462231293520, guid: 9cef7ad1caf901146943b78e3bc03af2, type: 3}
+  SpawnObject: {fileID: 712923719293859438, guid: 316fe638a0d21334e99498bf3887869a, type: 3}
   SpawnAmount: 1
   MaxIterations: 1000
   SpawnLocations: 3
