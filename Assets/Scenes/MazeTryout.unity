@@ -682,7 +682,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 850056f764ffd45f09c8d1fde7f0f742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  leftController: {fileID: 1350425963}
   door: {fileID: 236797304}
+  triggerDistance: 0.2
 --- !u!1 &115546660
 GameObject:
   m_ObjectHideFlags: 0
