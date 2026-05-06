@@ -26,9 +26,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Evan Maze.unity
     guid: b0643dac47f6e264580e0a0136a8cdf4
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/EvanMazeSmall.unity
     guid: 9c90a67ee233a984e8c9083bf816e93d
+  - enabled: 1
+    path: Assets/Scenes/MazeTryout.unity
+    guid: d7b0915e454994df5871884598fb5018
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: 1ffd2ac139be04006942dcd13805c02e, type: 2}
