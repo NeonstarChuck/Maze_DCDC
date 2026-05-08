@@ -1,20 +1,14 @@
 using UnityEngine;
 
-public class TableZoneDistance : MonoBehaviour
+public class TableZone : MonoBehaviour
 {
-    public Transform ball;
     public GameObject door;
-    public float triggerDistance = 0.2f;
 
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        if (ball == null) return;
-
-        float dist = Vector3.Distance(ball.position, transform.position);
-
-        if (dist < triggerDistance)
+        if (other.CompareTag("Key"))
         {
-            Debug.Log("Ball close enough → hiding door");
+            Debug.Log("KEY ENTERED ZONE → hiding door");
             door.SetActive(false);
         }
     }

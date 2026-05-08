@@ -192,14 +192,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 19232424}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53ac34a9b9b494c8b8b260851d769216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TableZone
-  ball: {fileID: 1521185071}
   door: {fileID: 236797304}
-  triggerDistance: 0.2
 --- !u!1 &21376265
 GameObject:
   m_ObjectHideFlags: 0
