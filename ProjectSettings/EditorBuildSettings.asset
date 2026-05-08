@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/FusionScene.unity
     guid: cfaeb10f55204455891c1ed08981fb2b
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/FusionScene.unity
     guid: cfaeb10f55204455891c1ed08981fb2b
   - enabled: 0
@@ -29,7 +29,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/EvanMazeSmall.unity
     guid: 9c90a67ee233a984e8c9083bf816e93d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MazeTryout.unity
     guid: d7b0915e454994df5871884598fb5018
   m_configObjects:

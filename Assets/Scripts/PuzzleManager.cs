@@ -2,55 +2,47 @@ using UnityEngine;
 
 public class PuzzleManager : MonoBehaviour
 {
-    public GameObject door;
+    public Door1 door;
 
-    private int greenCount = 0;
-    private int redCount = 0;
-    private int blueCount = 0;
-    private int yellowCount = 0;
+    private string[] sequence = new string[]
+    {
+        "Yellow",
+        "Yellow",
+        "Blue",
+        "Red",
+        "Red",
+        "Red",
+        "Green"
+    };
+
+    private int index = 0;
 
     public void PressButton(string color)
     {
-        switch (color)
+        Debug.Log("Pressed: " + color);
+
+        // correct step
+        if (color == sequence[index])
         {
-            case "Green":
-                greenCount++;
-                break;
+            index++;
+            Debug.Log("Correct step: " + index + "/" + sequence.Length);
 
-            case "Red":
-                redCount++;
-                break;
-
-            case "Blue":
-                blueCount++;
-                break;
-
-            case "Yellow":
-                yellowCount++;
-                break;
+            if (index >= sequence.Length)
+            {
+                Debug.Log("PUZZLE SOLVED!");
+                door.Open();
+                ResetPuzzle();
+            }
         }
-
-        Debug.Log(
-            "Green: " + greenCount +
-            " Red: " + redCount +
-            " Blue: " + blueCount +
-            " Yellow: " + yellowCount
-        );
-
-        CheckSolution();
+        else
+        {
+            Debug.Log("WRONG! Resetting puzzle");
+            ResetPuzzle();
+        }
     }
 
-    void CheckSolution()
+    void ResetPuzzle()
     {
-        if (
-            greenCount == 3 &&
-            redCount == 3 &&
-            blueCount == 2 &&
-            yellowCount == 1
-        )
-        {
-            Debug.Log("PUZZLE SOLVED!");
-            door.SetActive(false);
-        }
+        index = 0;
     }
 }
