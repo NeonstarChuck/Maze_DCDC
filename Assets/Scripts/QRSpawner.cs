@@ -1,52 +1,64 @@
 using UnityEngine;
 using Meta.XR.MRUtilityKit;
-using System.Collections.Generic;
+using Fusion;
 
-public class QRSpawner : MonoBehaviour
+public class QRSpawner : NetworkBehaviour
 {
     [System.Serializable]
     public struct QRMapping
     {
-        public string qrText;      // e.g., "MAZE_ROOM_01"
-        public GameObject prefab;  // The object to spawn for this text
+        public string qrText;
+        public NetworkPrefabRef prefab;
     }
 
-    [Header("Configuration")]
-    public List<QRMapping> qrMappings;
+    [Header("QR Configuration")]
+    public System.Collections.Generic.List<QRMapping> qrMappings;
 
-    // Dictionary to keep track of what we spawned for which QR code
-    private Dictionary<MRUKTrackable, GameObject> activeSpawns = new Dictionary<MRUKTrackable, GameObject>();
+    // This dictionary is the "Source of Truth" synced across all headsets
+    [Networked] 
+    private NetworkDictionary<string, NetworkObject> SpawnedObjects => default;
 
+    // This is called by MRUK (Select the DYNAMIC version in the Inspector!)
     public void OnTrackableAdded(MRUKTrackable trackable)
     {
-        if (trackable.TrackableType == OVRAnchor.TrackableType.QRCode && 
-            trackable.MarkerPayloadString != null)
-        {
-            string incomingText = trackable.MarkerPayloadString;
-            Debug.Log($"Scanned: {incomingText}");
+        // Safety check: Only process QR Codes
+        if (trackable.TrackableType != OVRAnchor.TrackableType.QRCode) return;
 
-            // Look through our list to find a match
-            foreach (var mapping in qrMappings)
+        string payload = trackable.MarkerPayloadString?.Trim();
+        if (string.IsNullOrEmpty(payload)) return;
+
+        Debug.Log($"[QR] Local Scan Detected: {payload}");
+
+        // Ask the Host to spawn the object so it's networked for everyone
+        RPC_RequestSpawn(payload, trackable.transform.position, trackable.transform.rotation);
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    private void RPC_RequestSpawn(string payload, Vector3 pos, Quaternion rot)
+    {
+        foreach (var mapping in qrMappings)
+        {
+            if (payload == mapping.qrText.Trim())
             {
-                if (incomingText == mapping.qrText)
-                {
-                    GameObject newObj = Instantiate(mapping.prefab, trackable.transform.position, trackable.transform.rotation);
-                    
-                    // Track this specific instance so we can delete it later
-                    activeSpawns.Add(trackable, newObj);
-                    return; 
-                }
+                // If we already spawned an object for this QR payload, don't do it again
+                if (SpawnedObjects.ContainsKey(payload)) return;
+
+                Debug.Log($"[Fusion] Host Spawning Networked Prefab: {payload}");
+                
+                // Spawn the networked object
+                var spawned = Runner.Spawn(mapping.prefab, pos, rot);
+                
+                // Add to dictionary so all players know this QR is "active"
+                SpawnedObjects.Add(payload, spawned);
+                break;
             }
         }
     }
 
+    // Optional: Clean up if trackable is lost
     public void OnTrackableRemoved(MRUKTrackable trackable)
     {
-        // If the QR code we were tracking is gone, destroy the object we spawned for it
-        if (activeSpawns.ContainsKey(trackable))
-        {
-            Destroy(activeSpawns[trackable]);
-            activeSpawns.Remove(trackable);
-        }
+        // Usually, we keep the maze even if the QR isn't visible, 
+        // but you can add despawn logic here if needed.
     }
 }
