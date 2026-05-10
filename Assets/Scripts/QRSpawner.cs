@@ -50,7 +50,10 @@ public class QRSpawner : NetworkBehaviour
 
             Debug.Log($"Spawning: {payload}");
 
-            NetworkObject spawned = Runner.Spawn(mapping.prefab, pos, rot);
+            // 🔥 FIX: Apply 180° rotation on X axis
+            Quaternion fixedRot = rot * Quaternion.Euler(180f, 0f, 0f);
+
+            NetworkObject spawned = Runner.Spawn(mapping.prefab, pos, fixedRot);
 
             SpawnedObjects.Set(payload, spawned);
 
