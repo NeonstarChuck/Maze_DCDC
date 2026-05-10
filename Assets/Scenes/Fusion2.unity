@@ -19125,10 +19125,10 @@ MonoBehaviour:
   qrMappings:
   - qrText: MAZE_ROOM_01
     prefab:
-      RawGuidValue: d02fafd424dcc6942b3650fe76fca854
+      RawGuidValue: 22ee1bbe94c98478d8a590126859f32a
   - qrText: TEST_QR
     prefab:
-      RawGuidValue: 22ee1bbe94c98478d8a590126859f32a
+      RawGuidValue: d02fafd424dcc6942b3650fe76fca854
 --- !u!4 &1180585085
 Transform:
   m_ObjectHideFlags: 0
