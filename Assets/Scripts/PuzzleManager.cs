@@ -6,13 +6,11 @@ public class PuzzleManager : MonoBehaviour
 
     private string[] sequence = new string[]
     {
+        "Red",
         "Yellow",
-        "Yellow",
+        "Green",
         "Blue",
-        "Red",
-        "Red",
-        "Red",
-        "Green"
+       
     };
 
     private int index = 0;
