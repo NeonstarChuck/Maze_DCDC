@@ -67,5 +67,5 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "DCDC_Lab1.slnx"
+    "dotnet.defaultSolution": "Maze_DCDC.slnx"
 }
