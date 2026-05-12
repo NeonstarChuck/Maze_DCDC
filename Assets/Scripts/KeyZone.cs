@@ -3,16 +3,15 @@ using UnityEngine;
 public class KeyZone : MonoBehaviour
 {
     public Transform leftController;
-    public GameObject door;
+    public RoomProgressManager progressManager;
 
     public float triggerDistance = 0.25f;
-    private bool doorOpened = false;
+    private bool solved = false;
 
     void Update()
     {
-        if (doorOpened || leftController == null) return;
+        if (solved || leftController == null) return;
 
-        // 🔥 Only allow if controller is connected
         if (!OVRInput.IsControllerConnected(OVRInput.Controller.LTouch))
             return;
 
@@ -20,9 +19,10 @@ public class KeyZone : MonoBehaviour
 
         if (dist < triggerDistance)
         {
-            Debug.Log("Controller only → door opens");
-            door.SetActive(false);
-            doorOpened = true;
+            Debug.Log("Key puzzle solved");
+
+            solved = true;
+            progressManager.KeyPuzzleSolved();
         }
     }
 }
