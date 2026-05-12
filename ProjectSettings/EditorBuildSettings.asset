@@ -32,10 +32,14 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/MazeTryout.unity
     guid: d7b0915e454994df5871884598fb5018
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Fusion2.unity
     guid: 4f73e144cf3f84c0fbd1d982305755db
+  - enabled: 1
+    path: Assets/Scenes/Maze_Interaction.unity
+    guid: f25c5c83170374bfa845dd93ea736838
   m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 398d945149746a94899cafbfeddf8c9f, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: 1ffd2ac139be04006942dcd13805c02e, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: d6ed2cfe1ca2d4c88ae8d28a98d20b8d, type: 2}
