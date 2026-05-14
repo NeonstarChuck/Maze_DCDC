@@ -18,8 +18,8 @@
   <Project Path="Unity.VisualScripting.Flow.Editor.csproj" />
   <Project Path="Unity.RenderPipelines.Core.Editor.csproj" />
   <Project Path="Unity.VisualStudio.Editor.csproj" />
-  <Project Path="Unity.Timeline.Editor.csproj" />
   <Project Path="Unity.XR.Oculus.Editor.csproj" />
+  <Project Path="Unity.Timeline.Editor.csproj" />
   <Project Path="Meta.WitAi.csproj" />
   <Project Path="Unity.XR.Interaction.Toolkit.Editor.csproj" />
   <Project Path="Meta.XR.ImmersiveDebugger.csproj" />
@@ -37,8 +37,8 @@
   <Project Path="UnityEditor.TestRunner.csproj" />
   <Project Path="Oculus.Interaction.OVR.csproj" />
   <Project Path="Meta.XR.MultiplayerBlocks.Fusion.csproj" />
-  <Project Path="Unity.Cinemachine.csproj" />
   <Project Path="Unity.RenderPipelines.Universal.Runtime.csproj" />
+  <Project Path="Unity.Cinemachine.csproj" />
   <Project Path="Unity.Burst.CodeGen.csproj" />
   <Project Path="Meta.XR.BuildingBlocks.AIBlocks.csproj" />
   <Project Path="Unity.InputSystem.csproj" />
@@ -105,8 +105,8 @@
   <Project Path="Unity.XR.Interaction.Toolkit.CodeSamples.Tests.csproj" />
   <Project Path="Unity.XR.ARFoundation.VisualScripting.csproj" />
   <Project Path="Meta.XR.Editor.RemoteContent.csproj" />
-  <Project Path="Unity.Collections.CodeGen.csproj" />
   <Project Path="Unity.XR.Interaction.Toolkit.Analytics.Hooks.Editor.csproj" />
+  <Project Path="Unity.Collections.CodeGen.csproj" />
   <Project Path="Meta.XR.MetaWand.Editor.csproj" />
   <Project Path="glTFast.Editor.csproj" />
   <Project Path="Fusion.Unity.csproj" />

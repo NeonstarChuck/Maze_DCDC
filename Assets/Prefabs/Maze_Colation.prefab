@@ -1799,7 +1799,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   leftController: {fileID: 0}
-  door: {fileID: 8098087296038877194}
+  progressManager: {fileID: 0}
   triggerDistance: 0.2
 --- !u!1 &3603634172843757413
 GameObject:
@@ -3507,6 +3507,8 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: -976802011508129956}
   - {fileID: -661675525638971493}
+  - {fileID: 3654104803308274209}
+  - {fileID: 3958294906238866220}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &-976802011508129956
 MonoBehaviour:
@@ -4863,6 +4865,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92f9f5715677def43a1f7c03808de2c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door1
+  _IsOpen: 0
 --- !u!1 &8098087296038877194
 GameObject:
   m_ObjectHideFlags: 0

@@ -44,9 +44,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Maze_Generator.unity
     guid: bff40cb05ef12c147940772ed308dbc5
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Maze_Generator 1.unity
     guid: bd700835e4c7ae14cb7ea33d43c68cbf
+  - enabled: 1
+    path: Assets/Scenes/Maze_Newest.unity
+    guid: d3900ec7f34bc434d8d1b2c14a344e90
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 398d945149746a94899cafbfeddf8c9f, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

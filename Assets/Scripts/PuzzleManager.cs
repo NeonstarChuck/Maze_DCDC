@@ -1,47 +1,37 @@
+using Fusion;
 using UnityEngine;
 
-public class PuzzleManager : MonoBehaviour
+public class PuzzleManager : NetworkBehaviour
 {
     public RoomProgressManager progressManager;
+    private readonly string[] sequence = { "Red", "Yellow", "Green", "Blue" };
 
-    private readonly string[] sequence =
-    {
-        "Red", "Yellow", "Green", "Blue"
-    };
-
-    private int index = 0;
-    private bool solved = false;
+    [Networked] private int Index { get; set; }
+    [Networked] private bool Solved { get; set; }
 
     public void PressButton(string color)
     {
-        if (solved)
-            return;
+        // Any player can call the RPC
+        RPC_PressButton(color);
+    }
 
-        Debug.Log("Pressed: " + color);
-        Debug.Log("Expected: " + sequence[index]);
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    private void RPC_PressButton(string color)
+    {
+        if (Solved) return;
 
-        if (color == sequence[index])
+        if (color == sequence[Index])
         {
-            index++;
-
-            if (index >= sequence.Length)
+            Index++;
+            if (Index >= sequence.Length)
             {
-                solved = true;
-                Debug.Log("Color puzzle solved");
-
-                if (progressManager != null)
-                    progressManager.ColorPuzzleSolved();
+                Solved = true;
+                progressManager.RPC_ColorPuzzleSolved();
             }
         }
         else
         {
-            Debug.Log("Wrong button. Resetting.");
-            ResetPuzzle();
+            Index = 0; // Reset for everyone if someone messes up
         }
-    }
-
-    private void ResetPuzzle()
-    {
-        index = 0;
     }
 }

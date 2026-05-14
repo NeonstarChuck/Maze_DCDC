@@ -1,40 +1,55 @@
+using Fusion;
 using UnityEngine;
 
-public class RoomProgressManager : MonoBehaviour
+public class RoomProgressManager : NetworkBehaviour
 {
     public Door1 leftDoor;
     public Door1 rightDoor;
 
-    private bool colorSolved = false;
-    private bool keySolved = false;
+    [Networked] public bool ColorSolved { get; set; }
+    [Networked] public bool KeySolved { get; set; }
 
-    public void ColorPuzzleSolved()
+    // This detects changes across the network
+    private ChangeDetector _changes;
+
+    public override void Spawned()
     {
-        Debug.Log("Color puzzle complete");
-        colorSolved = true;
-        CheckCompletion();
+        _changes = GetChangeDetector(ChangeDetector.Source.SimulationState);
     }
 
-    public void KeyPuzzleSolved()
+    public override void Render()
     {
-        Debug.Log("Key puzzle complete");
-        keySolved = true;
-        CheckCompletion();
+        foreach (var change in _changes.DetectChanges(this))
+        {
+            switch (change)
+            {
+                case nameof(ColorSolved):
+                case nameof(KeySolved):
+                    CheckCompletion();
+                    break;
+            }
+        }
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_ColorPuzzleSolved()
+    {
+        ColorSolved = true;
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_KeyPuzzleSolved()
+    {
+        KeySolved = true;
     }
 
     private void CheckCompletion()
     {
-        Debug.Log("Checking completion...");
-
-        if (colorSolved && keySolved)
+        if (ColorSolved && KeySolved)
         {
-            Debug.Log("Both puzzles solved. Opening both doors.");
-
-            if (leftDoor != null)
-                leftDoor.Open();
-
-            if (rightDoor != null)
-                rightDoor.Open();
+            Debug.Log("Puzzles Done - Opening Doors");
+            if (leftDoor != null) leftDoor.IsOpen = true;
+            if (rightDoor != null) rightDoor.IsOpen = true;
         }
     }
 }

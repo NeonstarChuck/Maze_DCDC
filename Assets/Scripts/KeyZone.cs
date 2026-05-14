@@ -1,44 +1,38 @@
+using Fusion;
 using UnityEngine;
 
-public class KeyZone : MonoBehaviour
+public class KeyZone : NetworkBehaviour
 {
-    public Transform leftController;
     public RoomProgressManager progressManager;
-
-    public GameObject[] revealObjects;
-
     public float triggerDistance = 0.25f;
-    private bool solved = false;
+
+    [Networked] private bool Solved { get; set; }
 
     void Update()
     {
-        if (solved || leftController == null) return;
+        // Every player checks their own controller locally
+        if (Solved) return;
 
-        if (!OVRInput.IsControllerConnected(OVRInput.Controller.LTouch))
-            return;
-
-        float dist = Vector3.Distance(leftController.position, transform.position);
+        // Note: You must assign the local headset's controller at runtime 
+        // or use OVRInput.GetLocalControllerPosition
+        Vector3 handPos = OVRInput.GetLocalControllerPosition(OVRInput.Controller.LTouch);
+        float dist = Vector3.Distance(handPos, transform.position);
 
         if (dist < triggerDistance)
         {
-            Debug.Log("Key puzzle solved");
-
-            solved = true;
-
-            RevealHints();
-
-            progressManager.KeyPuzzleSolved();
+            Debug.Log("Key puzzle triggered locally");
+            // Tell the Host we solved it
+            RPC_SetSolved();
         }
     }
 
-    private void RevealHints()
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    private void RPC_SetSolved()
     {
-        foreach (GameObject obj in revealObjects)
+        Solved = true;
+        if (Object.HasStateAuthority)
         {
-            if (obj != null)
-                obj.SetActive(true);
+            progressManager.RPC_KeyPuzzleSolved();
         }
-
-        Debug.Log("Hints revealed");
     }
 }
