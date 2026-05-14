@@ -5,6 +5,8 @@ public class KeyZone : MonoBehaviour
     public Transform leftController;
     public RoomProgressManager progressManager;
 
+    public GameObject[] revealObjects;
+
     public float triggerDistance = 0.25f;
     private bool solved = false;
 
@@ -22,7 +24,21 @@ public class KeyZone : MonoBehaviour
             Debug.Log("Key puzzle solved");
 
             solved = true;
+
+            RevealHints();
+
             progressManager.KeyPuzzleSolved();
         }
+    }
+
+    private void RevealHints()
+    {
+        foreach (GameObject obj in revealObjects)
+        {
+            if (obj != null)
+                obj.SetActive(true);
+        }
+
+        Debug.Log("Hints revealed");
     }
 }

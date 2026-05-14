@@ -10,18 +10,22 @@ public class RoomProgressManager : MonoBehaviour
 
     public void ColorPuzzleSolved()
     {
+        Debug.Log("Color puzzle complete");
         colorSolved = true;
         CheckCompletion();
     }
 
     public void KeyPuzzleSolved()
     {
+        Debug.Log("Key puzzle complete");
         keySolved = true;
         CheckCompletion();
     }
 
     private void CheckCompletion()
     {
+        Debug.Log("Checking completion...");
+
         if (colorSolved && keySolved)
         {
             Debug.Log("Both puzzles solved. Opening both doors.");

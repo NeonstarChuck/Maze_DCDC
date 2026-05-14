@@ -4,38 +4,38 @@ public class PuzzleManager : MonoBehaviour
 {
     public RoomProgressManager progressManager;
 
-    private readonly string[][] sequences =
+    private readonly string[] sequence =
     {
-        new string[] { "Red", "Yellow", "Green", "Blue" },
-        new string[] { "Blue", "Green", "Yellow", "Red" }
+        "Red", "Yellow", "Green", "Blue"
     };
 
-    private int currentStage = 0;
     private int index = 0;
+    private bool solved = false;
 
     public void PressButton(string color)
     {
-        if (currentStage >= sequences.Length)
+        if (solved)
             return;
 
-        if (color == sequences[currentStage][index])
+        Debug.Log("Pressed: " + color);
+        Debug.Log("Expected: " + sequence[index]);
+
+        if (color == sequence[index])
         {
             index++;
 
-            if (index >= sequences[currentStage].Length)
+            if (index >= sequence.Length)
             {
-                currentStage++;
-                ResetPuzzle();
+                solved = true;
+                Debug.Log("Color puzzle solved");
 
-                if (currentStage >= sequences.Length)
-                {
-                    Debug.Log("Color puzzle solved");
+                if (progressManager != null)
                     progressManager.ColorPuzzleSolved();
-                }
             }
         }
         else
         {
+            Debug.Log("Wrong button. Resetting.");
             ResetPuzzle();
         }
     }
