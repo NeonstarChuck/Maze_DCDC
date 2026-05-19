@@ -20,10 +20,16 @@ namespace NavKeypad
             if (!moving)
             {
                 keypad.AddInput(value);
+                Debug.Log("KEYPAD PRESSED");
                 StartCoroutine(MoveSmooth());
             }
         }
         private bool moving;
+
+        private void OnEnable()
+        {
+            Debug.Log("KEYPAD ACTIVE: " + gameObject.name);
+        }
 
         private IEnumerator MoveSmooth()
         {
