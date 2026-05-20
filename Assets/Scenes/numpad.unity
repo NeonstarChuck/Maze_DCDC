@@ -7651,7 +7651,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandScanner
   scanBar: {fileID: 371769745}
-  scanStartLocalPos: {x: 42.730385, y: 110.44693, z: 21.30032}
+  scanStartLocalPos: {x: -0.3362843, y: 110.44693, z: 21.30032}
   scanEndLocalPos: {x: 28, y: 110.44693, z: 21.30032}
   scanDuration: 4
   scanBarRenderer: {fileID: 142013422}
@@ -26126,7 +26126,7 @@ Transform:
   m_GameObject: {fileID: 1160146336}
   serializedVersion: 2
   m_LocalRotation: {x: 0.039284006, y: 0.7060149, z: 0.7060147, w: 0.039284002}
-  m_LocalPosition: {x: 0.311, y: -0.158, z: 0.292}
+  m_LocalPosition: {x: 0.3208, y: -0.0701, z: 0.292}
   m_LocalScale: {x: 3.4973505, y: 3.497351, z: 3.4973505}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -34545,7 +34545,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2161471248338566569, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.77
+      value: -2.76
       objectReference: {fileID: 0}
     - target: {fileID: 2199580340203360154, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_IsActive
@@ -34553,7 +34553,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3011630139471255012, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 105.2
+      value: 101.46
       objectReference: {fileID: 0}
     - target: {fileID: 6212918914433296041, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_IsActive
@@ -34742,11 +34742,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandScanner
   scanBar: {fileID: 1540869281}
-  scanStartLocalPos: {x: 42.730385, y: 110.44693, z: 21.30032}
-  scanEndLocalPos: {x: -0.15, y: 110.44693, z: 21.30032}
+  scanStartLocalPos: {x: -0.4426322, y: 110.44693, z: 21.30032}
+  scanEndLocalPos: {x: 29, y: 110.44693, z: 21.30032}
   scanDuration: 4
   scanBarRenderer: {fileID: 1540869282}
-  idleColor: {r: 1, g: 0, b: 0, a: 1}
+  idleColor: {r: 0.25547075, g: 0, b: 1, a: 1}
   scanningColor: {r: 0, g: 1, b: 0, a: 1}
   onScanComplete:
     m_PersistentCalls:
@@ -47032,6 +47032,10 @@ PrefabInstance:
     - target: {fileID: 934160644991148423, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2161471248338566569, guid: 1a57a73140824407791b408175e83234, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2199580340203360154, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_IsActive
