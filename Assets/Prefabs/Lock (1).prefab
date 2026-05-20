@@ -124,7 +124,6 @@ GameObject:
   - component: {fileID: 1004548616522782347}
   - component: {fileID: 1561970192396126907}
   - component: {fileID: 5225284494569320453}
-  - component: {fileID: 6423424918332874659}
   m_Layer: 0
   m_Name: Lock Zone
   m_TagString: Untagged
@@ -227,21 +226,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &6423424918332874659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4579094633219809776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 850056f764ffd45f09c8d1fde7f0f742, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  leftController: {fileID: 0}
-  door: {fileID: 0}
-  triggerDistance: 0.2
 --- !u!1 &9093637893417680801
 GameObject:
   m_ObjectHideFlags: 0
