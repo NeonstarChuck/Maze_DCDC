@@ -25,6 +25,10 @@ public class PuzzleManager : NetworkBehaviour
             if (Index >= sequence.Length)
             {
                 Solved = true;
+                
+                // --- THE FIX: Auto-locate manager if inspector slot is empty ---
+                if (progressManager == null) progressManager = UnityEngine.Object.FindAnyObjectByType<RoomProgressManager>();
+                
                 if (progressManager != null)
                 {
                     progressManager.RPC_ColorPuzzleSolved();
@@ -35,5 +39,13 @@ public class PuzzleManager : NetworkBehaviour
         {
             Index = 0; 
         }
+    }
+
+    public void ResetPuzzleState()
+    {
+        if (!Object.HasStateAuthority) return;
+        Solved = false;
+        Index = 0;
+        Debug.Log("[PuzzleManager] Combo tracker reset.");
     }
 }

@@ -5,6 +5,10 @@ public class KeypadNetworkBridge : NetworkBehaviour
 {
     public RoomProgressManager progressManager;
 
+    [Header("Local Keypad Integration")]
+    // Drag your 3D Keypad object (the one with the NavKeypad.Keypad script) here!
+    public NavKeypad.Keypad localKeypad; 
+
     // This public method will be executed by your local Keypad script
     public void OnKeypadAccessGranted()
     {
@@ -18,6 +22,19 @@ public class KeypadNetworkBridge : NetworkBehaviour
         if (progressManager != null)
         {
             progressManager.RPC_Stage2KeypadSolved();
+        }
+    }
+
+    // THIS FIXES THE COMPILER ERROR
+    public void ResetLocalKeypadUI()
+    {
+        if (localKeypad != null)
+        {
+            localKeypad.ResetKeypad();
+        }
+        else
+        {
+            Debug.LogWarning("[KeypadBridge] Cannot reset! Local Keypad reference is missing in the Inspector.");
         }
     }
 }

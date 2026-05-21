@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class RoomProgressManager : NetworkBehaviour
 {
-    [Header("Stage 1 Objects")]
-    public Door1 leftDoor;
-    public Door1 rightDoor;
+    [Header("Stage 1 Doors (Drag from Scene Hierarchy)")]
+    public Door1 stage1LeftDoor;
+    public Door1 stage1RightDoor;
 
-    [Header("Stage 2 Objects")]
+    [Header("Stage 2 Doors (Drag from Scene Hierarchy)")]
     public Door1 stage2LeftDoor;  
     public Door1 stage2RightDoor; 
 
-    // --- NETWORKED VARIABLES ---
+    // --- NETWORKED STATE VARIABLES ---
     [Networked] public bool ColorSolved { get; set; }
     [Networked] public bool KeySolved { get; set; }
     [Networked] public bool Stage2KeyZoneSolved { get; set; }
@@ -22,60 +22,122 @@ public class RoomProgressManager : NetworkBehaviour
     public override void Spawned()
     {
         _changes = GetChangeDetector(ChangeDetector.Source.SimulationState);
-        
-        CheckStage1Completion();
-        CheckStage2Completion();
+    }
+
+    void Update()
+    {
+        // --- THE FIX: Added 'R' key backup input for easy desktop testing ---
+        if (OVRInput.GetDown(OVRInput.Button.Two) || Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log("[ProgressManager] Reset triggered! Sending direct master reset command...");
+            RPC_RequestReset();
+        }
     }
 
     public override void Render()
     {
         foreach (var change in _changes.DetectChanges(this))
         {
-            switch (change)
+            if (change == nameof(Stage2KeypadSolved))
             {
-                case nameof(ColorSolved):
-                case nameof(KeySolved):
-                    CheckStage1Completion();
-                    break;
-
-                case nameof(Stage2KeyZoneSolved):
-                case nameof(Stage2KeypadSolved):
-                    CheckStage2Completion();
-                    break;
+                if (!Stage2KeypadSolved)
+                {
+                    KeypadNetworkBridge keypadBridge = UnityEngine.Object.FindFirstObjectByType<KeypadNetworkBridge>();
+                    if (keypadBridge != null) 
+                    {
+                        keypadBridge.ResetLocalKeypadUI();
+                    }
+                }
             }
         }
     }
 
-    // --- ALL INTERNET SIGNALS (RPCs) ---
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    public void RPC_ColorPuzzleSolved() => ColorSolved = true;
-
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    public void RPC_KeyPuzzleSolved() => KeySolved = true;
-
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    public void RPC_Stage2KeyZoneSolved() => Stage2KeyZoneSolved = true;
+    public void RPC_ColorPuzzleSolved()
+    {
+        ColorSolved = true;
+        CheckStage1Completion(); 
+    }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    public void RPC_Stage2KeypadSolved() => Stage2KeypadSolved = true;
+    public void RPC_KeyPuzzleSolved()
+    {
+        KeySolved = true;
+        CheckStage1Completion(); 
+    }
 
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_Stage2KeyZoneSolved()
+    {
+        Stage2KeyZoneSolved = true;
+        CheckStage2Completion(); 
+    }
 
-    // --- UNLOCK CHECKS (Host Only) ---
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_Stage2KeypadSolved()
+    {
+        Stage2KeypadSolved = true;
+        CheckStage2Completion(); 
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_RequestReset()
+    {
+        Debug.Log("[Host Reset] Wiping progress state registers and locking doors.");
+
+        ColorSolved = false;
+        KeySolved = false;
+        Stage2KeyZoneSolved = false;
+        Stage2KeypadSolved = false;
+
+        if (stage1LeftDoor != null) stage1LeftDoor.IsOpen = false;
+        if (stage1RightDoor != null) stage1RightDoor.IsOpen = false;
+        if (stage2LeftDoor != null) stage2LeftDoor.IsOpen = false;
+        if (stage2RightDoor != null) stage2RightDoor.IsOpen = false;
+
+        PuzzleManager[] colorPuzzles = UnityEngine.Object.FindObjectsByType<PuzzleManager>(FindObjectsSortMode.None);
+        foreach (PuzzleManager p in colorPuzzles)
+        {
+            if (p != null) p.ResetPuzzleState();
+        }
+
+        KeyZone[] keyZones = UnityEngine.Object.FindObjectsByType<KeyZone>(FindObjectsSortMode.None);
+        foreach (KeyZone kz in keyZones)
+        {
+            if (kz != null) kz.ResetKeyZoneState();
+        }
+
+        KeyZoneStage2[] stage2KeyZones = UnityEngine.Object.FindObjectsByType<KeyZoneStage2>(FindObjectsSortMode.None);
+        foreach (KeyZoneStage2 kz2 in stage2KeyZones) if (kz2 != null) kz2.ResetKeyZoneState();
+
+        RPC_BroadcastVisualReset();
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    private void RPC_BroadcastVisualReset()
+    {
+        KeypadNetworkBridge keypadBridge = UnityEngine.Object.FindFirstObjectByType<KeypadNetworkBridge>();
+        if (keypadBridge != null) 
+        {
+            keypadBridge.ResetLocalKeypadUI();
+        }
+    }
+
     private void CheckStage1Completion()
     {
-        if (ColorSolved && KeySolved && Object.HasStateAuthority)
+        if (ColorSolved && KeySolved)
         {
-            if (leftDoor != null) leftDoor.IsOpen = true;
-            if (rightDoor != null) rightDoor.IsOpen = true;
+            Debug.Log("[Host] Stage 1 Requirements Met! Opening Sector 1 Partition Gates.");
+            if (stage1LeftDoor != null) stage1LeftDoor.IsOpen = true;
+            if (stage1RightDoor != null) stage1RightDoor.IsOpen = true;
         }
     }
 
     private void CheckStage2Completion()
     {
-        // Change: Requires BOTH Stage 2 variables to be true before opening BOTH doors
-        if (Stage2KeyZoneSolved && Stage2KeypadSolved && Object.HasStateAuthority)
+        if (Stage2KeyZoneSolved && Stage2KeypadSolved)
         {
-            Debug.Log("[Fusion] Stage 2 Complete! Opening both Stage 2 doors simultaneously.");
+            Debug.Log("[Host] Stage 2 Requirements Met! Opening Sector 2 Exit Gates.");
             if (stage2LeftDoor != null) stage2LeftDoor.IsOpen = true;
             if (stage2RightDoor != null) stage2RightDoor.IsOpen = true;
         }

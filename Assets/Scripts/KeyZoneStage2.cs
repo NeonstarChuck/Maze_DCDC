@@ -9,7 +9,7 @@ public class KeyZoneStage2 : NetworkBehaviour
     [Header("Drag Scene Controller Tracking Here")]
     public Transform targetControllerTransform;
 
-    [Header("Puzzle Rewards (Optional)")]
+    [Header("Puzzle Object (Will HIDE when solved)")]
     public GameObject hiddenObject;
 
     [Networked] private bool Solved { get; set; }
@@ -37,7 +37,6 @@ public class KeyZoneStage2 : NetworkBehaviour
 
     public override void Render()
     {
-        // Change detector forces BOTH headsets to see the hidden object unhide instantly
         foreach (var change in _changes.DetectChanges(this))
         {
             if (change == nameof(Solved))
@@ -51,7 +50,9 @@ public class KeyZoneStage2 : NetworkBehaviour
     {
         if (hiddenObject != null)
         {
-            hiddenObject.SetActive(Solved);
+            // --- THE FIX: '!' means NOT. True becomes False, False becomes True.
+            // When Solved is true, SetActive becomes false (Hides the object)
+            hiddenObject.SetActive(!Solved);
         }
     }
 
@@ -61,10 +62,22 @@ public class KeyZoneStage2 : NetworkBehaviour
         if (Solved) return;
         
         Solved = true;
+
+        // Auto-locate manager if inspector link is dropped
+        if (progressManager == null) progressManager = UnityEngine.Object.FindAnyObjectByType<RoomProgressManager>();
+
         if (progressManager != null)
         {
-            // The only structural change: targeted directly to Stage 2 variables
             progressManager.RPC_Stage2KeyZoneSolved();
         }
+    }
+
+    // --- ADDED FOR THE MASTER RESET SYSTEM ---
+    public void ResetKeyZoneState()
+    {
+        if (!Object.HasStateAuthority) return;
+        Solved = false;
+        UpdateHiddenObjectVisibility(); // Bring the object back instantly on host
+        Debug.Log($"[{gameObject.name}] Stage 2 Key zone reset. Object brought back.");
     }
 }
