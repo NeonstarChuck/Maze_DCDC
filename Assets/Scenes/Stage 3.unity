@@ -12072,8 +12072,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RoomProgressManager
   leftDoor: {fileID: 350113374}
   rightDoor: {fileID: 45116211}
+  stage2LeftDoor: {fileID: 0}
+  stage2RightDoor: {fileID: 0}
   _ColorSolved: 0
   _KeySolved: 0
+  _Stage2KeyZoneSolved: 0
+  _Stage2KeypadSolved: 0
 --- !u!114 &691150120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21908,7 +21912,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5366894570279880239, guid: 8a99ad685939c2a4d8d1baf00263cf49, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.04
+      value: 2.33
       objectReference: {fileID: 0}
     - target: {fileID: 5366894570279880239, guid: 8a99ad685939c2a4d8d1baf00263cf49, type: 3}
       propertyPath: m_LocalPosition.y
