@@ -127,5 +127,20 @@ namespace NavKeypad
             audioSource.PlayOneShot(accessGrantedSfx);
         }
 
+// --- ADD THIS METHOD TO THE BOTTOM OF YOUR KEYPAD SCRIPT ---
+        public void ResetKeypad()
+        {
+            accessWasGranted = false;
+            displayingResult = false;
+            ClearInput();
+            
+            if (panelMesh != null)
+            {
+                panelMesh.material.SetVector("_EmissionColor", screenNormalColor * screenIntensity);
+            }
+            Debug.Log("[Keypad Visuals] Access revoked. Screen reset to default.");
+        }
     }
+
+    
 }

@@ -16,13 +16,22 @@ public class Door1 : NetworkBehaviour
 
     public override void Render()
     {
-        // If the network data says open, hide colliders and renderers on ALL headsets
         if (IsOpen)
         {
+            // Turn off physics and visuals when open
             if (col != null && col.enabled) col.enabled = false;
             foreach (var r in rends)
             {
                 if (r != null && r.enabled) r.enabled = false;
+            }
+        }
+        else
+        {
+            // --- THE FIX: Restore physics and visuals when closed ---
+            if (col != null && !col.enabled) col.enabled = true;
+            foreach (var r in rends)
+            {
+                if (r != null && !r.enabled) r.enabled = true;
             }
         }
     }
