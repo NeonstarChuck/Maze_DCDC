@@ -107,6 +107,9 @@ public class RoomProgressManager : NetworkBehaviour
             if (kz != null) kz.ResetKeyZoneState();
         }
 
+        KeyZoneStage2[] stage2KeyZones = UnityEngine.Object.FindObjectsByType<KeyZoneStage2>(FindObjectsSortMode.None);
+        foreach (KeyZoneStage2 kz2 in stage2KeyZones) if (kz2 != null) kz2.ResetKeyZoneState();
+
         RPC_BroadcastVisualReset();
     }
 
