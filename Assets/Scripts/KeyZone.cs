@@ -25,9 +25,7 @@ public class KeyZone : NetworkBehaviour
     {
         if (Solved || targetControllerTransform == null) return;
 
-        // Measures real-world distance from the dragged controller transform
         float dist = Vector3.Distance(targetControllerTransform.position, transform.position);
-
         if (dist < triggerDistance)
         {
             Debug.Log("Key puzzle triggered locally. Requesting Host to solve.");
@@ -37,7 +35,6 @@ public class KeyZone : NetworkBehaviour
 
     public override void Render()
     {
-        // Change detector forces BOTH headsets to see the hidden object unhide
         foreach (var change in _changes.DetectChanges(this))
         {
             if (change == nameof(Solved))
@@ -61,9 +58,20 @@ public class KeyZone : NetworkBehaviour
         if (Solved) return;
         
         Solved = true;
+
+        // --- THE FIX: Auto-locate manager if inspector slot is empty ---
+        if (progressManager == null) progressManager = UnityEngine.Object.FindAnyObjectByType<RoomProgressManager>();
+
         if (progressManager != null)
         {
             progressManager.RPC_KeyPuzzleSolved();
         }
+    }
+
+    public void ResetKeyZoneState()
+    {
+        if (!Object.HasStateAuthority) return;
+        Solved = false;
+        Debug.Log($"[{gameObject.name}] Key tracking zone has been relocked.");
     }
 }
