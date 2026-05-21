@@ -36,4 +36,13 @@ public class PuzzleManager : NetworkBehaviour
             Index = 0; 
         }
     }
+
+    // Call this from the progress manager on the host to clear data
+    public void ResetPuzzleState()
+    {
+        if (!Object.HasStateAuthority) return;
+        Solved = false;
+        Index = 0;
+        Debug.Log("[PuzzleManager] Combo tracker reset.");
+    }
 }
