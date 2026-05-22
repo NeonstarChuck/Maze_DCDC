@@ -237,7 +237,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8128668236925612103, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_Name
-      value: poppy_playtime_3_blue_hand_scanner (3)
+      value: BlueHandLeft
       objectReference: {fileID: 0}
     - target: {fileID: 8181333772887627058, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_IsActive
@@ -257,7 +257,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.298
+      value: 5.77
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_LocalPosition.y
@@ -265,7 +265,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 14.569
+      value: 14.901
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_LocalRotation.w
@@ -306,6 +306,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2199580340203360154, guid: 1a57a73140824407791b408175e83234, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3467189}
+    - targetCorrespondingSourceObject: {fileID: 2199580340203360154, guid: 1a57a73140824407791b408175e83234, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3467193}
     - targetCorrespondingSourceObject: {fileID: 6212918914433296041, guid: 1a57a73140824407791b408175e83234, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3467192}
@@ -602,6 +605,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.65790766, y: 0.33684814, z: 0.66948897}
   m_Center: {x: 0.23174903, y: 0.0091446815, z: 0.17768502}
+--- !u!114 &3467193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3467187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c25f4b637b79b4468afd83ed7adc1c57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HandScannerNetworkBridge
+  progressManager: {fileID: 354198574}
+  localScanner: {fileID: 3467189}
+  scannerID: 2
 --- !u!1 &6518944
 GameObject:
   m_ObjectHideFlags: 0
@@ -3765,7 +3783,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8128668236925612103, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_Name
-      value: poppy_playtime_3_blue_hand_scanner (2)
+      value: BlueHandRight
       objectReference: {fileID: 0}
     - target: {fileID: 8181333772887627058, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_IsActive
@@ -3785,7 +3803,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.154
+      value: 5.475
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3793,7 +3811,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 14.07
+      value: 14.273
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3834,6 +3852,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2199580340203360154, guid: 1a57a73140824407791b408175e83234, type: 3}
       insertIndex: -1
       addedObject: {fileID: 233442039}
+    - targetCorrespondingSourceObject: {fileID: 2199580340203360154, guid: 1a57a73140824407791b408175e83234, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 233442043}
     - targetCorrespondingSourceObject: {fileID: 6212918914433296041, guid: 1a57a73140824407791b408175e83234, type: 3}
       insertIndex: -1
       addedObject: {fileID: 233442042}
@@ -4130,6 +4151,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.65790766, y: 0.33684814, z: 0.66948897}
   m_Center: {x: 0.23174903, y: 0.0091446815, z: 0.17768502}
+--- !u!114 &233442043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 233442037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c25f4b637b79b4468afd83ed7adc1c57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HandScannerNetworkBridge
+  progressManager: {fileID: 354198574}
+  localScanner: {fileID: 233442039}
+  scannerID: 4
 --- !u!1 &235684360
 GameObject:
   m_ObjectHideFlags: 0
@@ -5960,10 +5996,17 @@ MonoBehaviour:
   stage1RightDoor: {fileID: 2020260023}
   stage2LeftDoor: {fileID: 901194097}
   stage2RightDoor: {fileID: 1308720080}
+  lastRoomsToHide:
+  - {fileID: 4401815093646130580}
   _ColorSolved: 0
   _KeySolved: 0
   _Stage2KeyZoneSolved: 0
   _Stage2KeypadSolved: 0
+  _Scanner1Done: 0
+  _Scanner2Done: 0
+  _Scanner3Done: 0
+  _Scanner4Done: 0
+  _FinalRoomsHidden: 0
 --- !u!4 &354198575
 Transform:
   m_ObjectHideFlags: 0
@@ -13612,7 +13655,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8128668236925612103, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_Name
-      value: poppy_playtime_3_blue_hand_scanner (1)
+      value: RedHandRight
       objectReference: {fileID: 0}
     - target: {fileID: 8181333772887627058, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_IsActive
@@ -13632,7 +13675,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.1286497
+      value: 5.466
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_LocalPosition.y
@@ -13640,7 +13683,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 12.947632
+      value: 13.077
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_LocalRotation.w
@@ -13681,6 +13724,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2199580340203360154, guid: 1a57a73140824407791b408175e83234, type: 3}
       insertIndex: -1
       addedObject: {fileID: 740452094}
+    - targetCorrespondingSourceObject: {fileID: 2199580340203360154, guid: 1a57a73140824407791b408175e83234, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 740452098}
     - targetCorrespondingSourceObject: {fileID: 6212918914433296041, guid: 1a57a73140824407791b408175e83234, type: 3}
       insertIndex: -1
       addedObject: {fileID: 740452097}
@@ -13977,6 +14023,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.65790766, y: 0.33684814, z: 0.66948897}
   m_Center: {x: 0.23174903, y: 0.0091446815, z: 0.17768502}
+--- !u!114 &740452098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740452092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c25f4b637b79b4468afd83ed7adc1c57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HandScannerNetworkBridge
+  progressManager: {fileID: 354198574}
+  localScanner: {fileID: 740452094}
+  scannerID: 3
 --- !u!1 &742486159
 GameObject:
   m_ObjectHideFlags: 0
@@ -30658,7 +30719,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8128668236925612103, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_Name
-      value: poppy_playtime_3_blue_hand_scanner
+      value: RedHandRight
       objectReference: {fileID: 0}
     - target: {fileID: 8181333772887627058, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_IsActive
@@ -30678,7 +30739,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.192
+      value: 5.704
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_LocalPosition.y
@@ -30686,7 +30747,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 13.489
+      value: 13.649
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: 1a57a73140824407791b408175e83234, type: 3}
       propertyPath: m_LocalRotation.w
@@ -30727,6 +30788,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2199580340203360154, guid: 1a57a73140824407791b408175e83234, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1639309795}
+    - targetCorrespondingSourceObject: {fileID: 2199580340203360154, guid: 1a57a73140824407791b408175e83234, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1639309799}
     - targetCorrespondingSourceObject: {fileID: 6212918914433296041, guid: 1a57a73140824407791b408175e83234, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1639309798}
@@ -31023,6 +31087,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.65790766, y: 0.33684814, z: 0.66948897}
   m_Center: {x: 0.23174903, y: 0.0091446815, z: 0.17768502}
+--- !u!114 &1639309799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639309793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c25f4b637b79b4468afd83ed7adc1c57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HandScannerNetworkBridge
+  progressManager: {fileID: 354198574}
+  localScanner: {fileID: 1639309795}
+  scannerID: 1
 --- !u!1 &1659492506
 GameObject:
   m_ObjectHideFlags: 0
@@ -40001,9 +40080,17 @@ PrefabInstance:
       propertyPath: manager
       value: 
       objectReference: {fileID: 1341458022}
+    - target: {fileID: 4055119796823413569, guid: aed6943f49e564355b8a193f4396df4d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4548645323758070238, guid: aed6943f49e564355b8a193f4396df4d, type: 3}
       propertyPath: SortKey
       value: 1861549874
+      objectReference: {fileID: 0}
+    - target: {fileID: 5131711563244352287, guid: aed6943f49e564355b8a193f4396df4d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6169497765023924721, guid: aed6943f49e564355b8a193f4396df4d, type: 3}
       propertyPath: manager
@@ -40143,11 +40230,20 @@ MonoBehaviour:
   - {fileID: 1308720081}
   - {fileID: 1803234491}
   - {fileID: 901194101}
-  NetworkedBehaviours: []
+  NetworkedBehaviours:
+  - {fileID: 1639309799}
+  - {fileID: 3467193}
+  - {fileID: 740452098}
+  - {fileID: 233442043}
   ForceRemoteRenderTimeframe: 0
 --- !u!4 &4401815093646130579 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7481363530982214411, guid: aed6943f49e564355b8a193f4396df4d, type: 3}
+  m_PrefabInstance: {fileID: 4401815093646130576}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4401815093646130580 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6397258081968759648, guid: aed6943f49e564355b8a193f4396df4d, type: 3}
   m_PrefabInstance: {fileID: 4401815093646130576}
   m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807

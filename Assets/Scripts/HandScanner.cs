@@ -15,7 +15,7 @@ public class HandScanner : MonoBehaviour
     [SerializeField] private Color scanningColor = Color.green;
 
     [Header("Events")]
-    [SerializeField] private UnityEngine.Events.UnityEvent onScanComplete;
+    public UnityEngine.Events.UnityEvent onScanComplete; // Changed to public so the bridge can see it
 
     private bool isScanning = false;
 
@@ -35,11 +35,9 @@ public class HandScanner : MonoBehaviour
     {
         isScanning = true;
 
-        // change to scanning color
         if (scanBarRenderer != null)
             scanBarRenderer.material.color = scanningColor;
 
-        // move bar from start to end
         float elapsed = 0f;
         while (elapsed < scanDuration)
         {
@@ -49,14 +47,27 @@ public class HandScanner : MonoBehaviour
             yield return null;
         }
 
-        // scan complete
         onScanComplete?.Invoke();
         isScanning = false;
 
-        // reset color and bar position
         if (scanBarRenderer != null)
             scanBarRenderer.material.color = idleColor;
 
         scanBar.localPosition = scanStartLocalPos;
+    }
+
+    // --- ADDED FOR THE MASTER RESET SYSTEM ---
+    public void ResetScanner()
+    {
+        StopAllCoroutines();
+        isScanning = false;
+        
+        if (scanBarRenderer != null)
+            scanBarRenderer.material.color = idleColor;
+
+        if (scanBar != null)
+            scanBar.localPosition = scanStartLocalPos;
+            
+        Debug.Log($"[{gameObject.name}] Scanner graphics safely restored to default.");
     }
 }
