@@ -5,70 +5,68 @@ using TMPro;
 public class NetworkedTimer : NetworkBehaviour
 {
     public RoomProgressManager progressManager;
-    
-    [Header("UI Display Target")]
     public TextMeshProUGUI timerText;
 
-    [Networked] private bool IsRunning { get; set; }
     [Networked] private float ElapsedTime { get; set; }
+    [Networked] private bool IsRunning { get; set; }
 
     public override void Spawned()
     {
         if (progressManager == null)
             progressManager = UnityEngine.Object.FindAnyObjectByType<RoomProgressManager>();
-            
-        UpdateTextDisplay();
-    }
-
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    public void RPC_StartTimer()
-    {
-        // Block execution if already tracking, or if the game map is already cleared
-        if (IsRunning || (progressManager != null && progressManager.FinalRoomsHidden)) return;
-        
-        IsRunning = true;
-        Debug.Log("[Timer Engine] Speedrun clock initiated.");
     }
 
     public override void FixedUpdateNetwork()
     {
-        if (!Object.HasStateAuthority) return;
+        if (!IsRunning) return;
 
-        // Auto-Stop Check: Freeze immediately if the final trackers finish
-        if (progressManager != null && progressManager.FinalRoomsHidden && IsRunning)
+        // Freeze condition: Stop adding time when the escape rooms are hidden (game beat)
+        if (progressManager != null && progressManager.FinalRoomsHidden)
         {
-            IsRunning = false;
-            Debug.Log($"[Timer Engine] Complete! Locked Time: {timerText.text}");
+            IsRunning = false; 
+            Debug.Log($"[Timer] Game Complete! Final Time Frozen at: {FormatTime(ElapsedTime)}");
+            return;
         }
 
-        if (IsRunning)
-        {
-            ElapsedTime += Runner.DeltaTime;
-        }
+        ElapsedTime += Runner.DeltaTime;
     }
 
     public override void Render()
     {
-        UpdateTextDisplay();
+        if (timerText != null)
+        {
+            timerText.text = FormatTime(ElapsedTime);
+        }
     }
 
-    private void UpdateTextDisplay()
+    // --- 🚨 THE MATCHING RPC FOR YOUR START BUTTON 🚨 ---
+    // This allows any player (All) to tell the Host (StateAuthority) to start the clock
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_StartTimer()
     {
-        if (timerText == null) return;
+        // Don't restart the clock if the game is already won!
+        if (progressManager != null && progressManager.FinalRoomsHidden) return;
 
-        int minutes = Mathf.FloorToInt(ElapsedTime / 60F);
-        int seconds = Mathf.FloorToInt(ElapsedTime % 60F);
-        int milliseconds = Mathf.FloorToInt((ElapsedTime * 100F) % 100F);
-
-        timerText.text = string.Format("{0:00}:{1:00}.{2:00}", minutes, seconds, milliseconds);
+        IsRunning = true;
+        Debug.Log("[Timer Host Sync] Speedrun timer started via Player Button Click.");
     }
 
+    // Called automatically by RoomProgressManager when pressing the master 'B' button
     public void ResetTimerState()
     {
         if (!Object.HasStateAuthority) return;
         
         IsRunning = false;
         ElapsedTime = 0f;
-        Debug.Log("[Timer Engine] Clock safely set back to zero.");
+        Debug.Log("[Timer] Speedrun clock wiped back to 00:00.00 via Master Reset.");
+    }
+
+    private string FormatTime(float timeInSeconds)
+    {
+        int minutes = Mathf.FloorToInt(timeInSeconds / 60f);
+        int seconds = Mathf.FloorToInt(timeInSeconds % 60f);
+        int fraction = Mathf.FloorToInt((timeInSeconds * 100f) % 100f);
+
+        return string.Format("{0:00}:{1:00}.{2:00}", minutes, seconds, fraction);
     }
 }

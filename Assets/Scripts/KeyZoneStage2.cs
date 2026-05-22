@@ -1,16 +1,22 @@
 using Fusion;
 using UnityEngine;
+using TMPro;
 
 public class KeyZoneStage2 : NetworkBehaviour
 {
     public RoomProgressManager progressManager;
     public float triggerDistance = 0.25f;
 
-    [Header("Drag Scene Controller Tracking Here")]
+    [Header("Target Tracking Transform (Controller/Hand/Key)")]
     public Transform targetControllerTransform;
 
     [Header("Puzzle Object (Will HIDE when solved)")]
     public GameObject hiddenObject;
+
+    [Header("Co-op Status UI")]
+    public TextMeshProUGUI statusText;
+    public Color idleColor = Color.yellow;
+    public Color successColor = Color.green;
 
     [Networked] private bool Solved { get; set; }
     private ChangeDetector _changes;
@@ -19,13 +25,13 @@ public class KeyZoneStage2 : NetworkBehaviour
     {
         _changes = GetChangeDetector(ChangeDetector.Source.SimulationState);
         UpdateHiddenObjectVisibility();
+        UpdateDisplay();
     }
 
     void Update()
     {
         if (Solved || targetControllerTransform == null) return;
 
-        // Measures real-world distance from the dragged controller transform
         float dist = Vector3.Distance(targetControllerTransform.position, transform.position);
 
         if (dist < triggerDistance)
@@ -37,6 +43,8 @@ public class KeyZoneStage2 : NetworkBehaviour
 
     public override void Render()
     {
+        UpdateDisplay();
+
         foreach (var change in _changes.DetectChanges(this))
         {
             if (change == nameof(Solved))
@@ -46,12 +54,26 @@ public class KeyZoneStage2 : NetworkBehaviour
         }
     }
 
+    private void UpdateDisplay()
+    {
+        if (statusText == null) return;
+
+        if (Solved)
+        {
+            statusText.text = "SUCCESS!\nWAITING FOR OTHER PLAYER";
+            statusText.color = successColor;
+        }
+        else
+        {
+            statusText.text = "INSERT SECURITY KEY 02";
+            statusText.color = idleColor;
+        }
+    }
+
     private void UpdateHiddenObjectVisibility()
     {
         if (hiddenObject != null)
         {
-            // --- THE FIX: '!' means NOT. True becomes False, False becomes True.
-            // When Solved is true, SetActive becomes false (Hides the object)
             hiddenObject.SetActive(!Solved);
         }
     }
@@ -63,21 +85,22 @@ public class KeyZoneStage2 : NetworkBehaviour
         
         Solved = true;
 
-        // Auto-locate manager if inspector link is dropped
-        if (progressManager == null) progressManager = UnityEngine.Object.FindAnyObjectByType<RoomProgressManager>();
+        if (progressManager == null) 
+            progressManager = UnityEngine.Object.FindAnyObjectByType<RoomProgressManager>();
 
         if (progressManager != null)
         {
+            // ROUTE TO STAGE 2
             progressManager.RPC_Stage2KeyZoneSolved();
         }
     }
 
-    // --- ADDED FOR THE MASTER RESET SYSTEM ---
     public void ResetKeyZoneState()
     {
         if (!Object.HasStateAuthority) return;
+        
         Solved = false;
-        UpdateHiddenObjectVisibility(); // Bring the object back instantly on host
-        Debug.Log($"[{gameObject.name}] Stage 2 Key zone reset. Object brought back.");
+        UpdateHiddenObjectVisibility(); 
+        Debug.Log($"[{gameObject.name}] Stage 2 Key Zone reset complete.");
     }
 }

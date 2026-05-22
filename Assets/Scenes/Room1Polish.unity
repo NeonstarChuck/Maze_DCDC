@@ -2382,7 +2382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: d4413f4f-542f-451f-92ee-4801f27d676a
-  instanceId: 38c31550-d34b-496e-8a09-7fb76e12f699
+  instanceId: 3fbd8b62-6625-4d0b-9a8f-9c1f918915f0
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -3945,7 +3945,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: 5817f7c0-f2a5-45f9-a5ca-64264e0166e8
-  instanceId: eff03930-66fa-4ba2-8088-1d0a05557d6d
+  instanceId: 900422a9-245f-47d8-bf19-0853d3d917a7
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -5600,7 +5600,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: ece9de6e-19c8-4f64-bb33-313ed23e6c5c
-  instanceId: 2183e0dc-b4e8-4178-a004-90cf4a437635
+  instanceId: 8da6e122-3f9a-428b-adaf-a52a524e635b
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -7932,7 +7932,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: f308c8f0-7a4b-4cd5-88be-c15b6399f823
-  instanceId: ee55362f-b49f-4a38-951e-7a2ab5c72bd5
+  instanceId: b4431370-3cdb-4c6d-abc2-0bb591d0c94d
   version: 3
   installationRoutineCheckpoint:
     _installationRoutineId: 4ec10206-4327-44cd-ae75-ff2b80d3422e
@@ -8422,7 +8422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: 93762ef0-9738-45f4-bb87-bdb9a0acb994
-  instanceId: 653ace61-ef3c-456b-a7bf-4b3e1c34d101
+  instanceId: ac5d7ac2-cfa4-4b7f-be00-5fa60e6a3ad1
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -9127,7 +9127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: c5bea02f-8079-4142-87f9-56da5993f861
-  instanceId: b31efbb0-db41-4c1c-9fe5-44adaaa016bb
+  instanceId: fa82cffe-b0b0-415f-9795-3053140d893b
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 9374d03f-9ea4-4c9b-bfce-18e3f81ba31e
@@ -12516,7 +12516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: 4e14e0ba-51f2-4a5c-a822-e304bf36d48c
-  instanceId: 41c97f7b-0206-4d25-93c7-25c7f1512ba1
+  instanceId: 9f56fb17-0f59-4139-867b-0d3f97d798e6
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: fb25cac7-8f37-455d-ac01-3fa41a1be37d
@@ -13519,7 +13519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::SharedSpatialAnchorCoreBuildingBlock
   blockId: 975428dc-db04-4e43-be4a-232f192cd3eb
-  instanceId: 4039233c-3404-48b1-955d-d2e5824be6b5
+  instanceId: dc0ead64-2375-4076-997c-37e226dd279c
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -13872,7 +13872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: 5817f7c0-f2a5-45f9-a5ca-64264e0166e8
-  instanceId: e7af4d19-903d-4920-8954-2347c9e858af
+  instanceId: 19407c9a-ced8-47e7-b37a-2c7f492e53df
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -16449,7 +16449,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: 8b26b298-7bf4-490e-b245-a039c0184303
-  instanceId: eadb4860-bdee-4393-a4ce-9cc1494b7e7c
+  instanceId: 4010a20e-0be9-4fc1-876d-367ab2dd04ec
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -17091,7 +17091,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks.DepthAPI::OcclusionBuildingBlock
   blockId: c1dbe32c-fed2-4835-8e6a-3fbb4f4f4315
-  instanceId: 5caae7bb-49b4-44bb-bcbc-e5bc1b1ed58d
+  instanceId: 5dacbd12-bd46-4d62-adff-d704a90ec59b
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -24158,135 +24158,6 @@ Transform:
   - {fileID: 537344212}
   m_Father: {fileID: 172260427}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1223995290
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1223995292}
-  - component: {fileID: 1223995291}
-  m_Layer: 0
-  m_Name: MusicManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!82 &1223995291
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1223995290}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 34c478115d9c34893bcda6baee68c93e, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 1
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
---- !u!4 &1223995292
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1223995290}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.87293, y: 1.30358, z: 4.67959}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1227958056
 GameObject:
   m_ObjectHideFlags: 0
@@ -24957,7 +24828,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: 81f55626-5fad-45e9-a1df-184f330da7ba
-  instanceId: dd029652-5f73-4b53-8202-e5fa2093ef51
+  instanceId: 82ce6399-b762-4c7d-bbc4-1c9c92c04482
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 2063f481-1b63-4eda-9ee8-a00df98536bc
@@ -26756,6 +26627,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleManager
   progressManager: {fileID: 354198574}
+  statusText: {fileID: 0}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  successColor: {r: 0, g: 1, b: 0, a: 1}
+  errorColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!4 &1341458023
 Transform:
   m_ObjectHideFlags: 0
@@ -29439,7 +29314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: 1d8db162-54f6-43df-b4ef-b499df1f6769
-  instanceId: 65a70336-e9cf-46cd-a1cc-855c28f2ec1c
+  instanceId: 6bcc81e5-8bbb-45fb-8bf8-25ac3bfeda4f
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 676820bd-24bb-4da2-9785-74ad32626885
@@ -29682,7 +29557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: e47682b9-c270-40b1-b16d-90b627a5ce1b
-  instanceId: e717d24c-6551-4f67-9014-bc5b4163d0b5
+  instanceId: e9a891e0-48aa-4d7e-8ec2-c3f6f848e542
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -33227,7 +33102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: 9141594f-eab4-43f9-b05e-17f2f40db586
-  instanceId: a980f2e7-7484-4b0c-bac3-0db2a9431d4b
+  instanceId: 44dd3450-36f2-4793-966c-fed87689d7f0
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 871efd9e-7c98-49a6-bd84-bf6663c44e3f
@@ -34452,7 +34327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: 4e14e0ba-51f2-4a5c-a822-e304bf36d48c
-  instanceId: 5d452f1c-20ea-427a-8fc4-50691639ba3a
+  instanceId: 55a5f320-b832-4d4a-b121-82d419b27f3e
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: fb25cac7-8f37-455d-ac01-3fa41a1be37d
@@ -37214,7 +37089,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: 8b26b298-7bf4-490e-b245-a039c0184303
-  instanceId: 9028a26f-2661-4b9a-976a-dc239b68eba2
+  instanceId: f4540bda-51e1-475e-b635-c395d7a82d6e
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -41496,7 +41371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: f0540b20-dfd6-420e-b20d-c270f88dc77e
-  instanceId: 3fbdd6e5-4311-4fb6-98c9-196250c02bd5
+  instanceId: 4c2f9751-1c78-4a5a-9413-36fb2998e5ee
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -42723,4 +42598,3 @@ SceneRoots:
   - {fileID: 1870798479}
   - {fileID: 1539117571}
   - {fileID: 192228853}
-  - {fileID: 1223995292}
