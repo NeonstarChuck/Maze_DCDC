@@ -5,7 +5,9 @@ using TMPro;
 public class NetworkedTimer : NetworkBehaviour
 {
     public RoomProgressManager progressManager;
-    public TextMeshProUGUI timerText;
+
+    [Header("Timer Displays (Add Start and End Texts Here)")]
+    public TextMeshProUGUI[] timerTexts;
 
     [Networked] private float ElapsedTime { get; set; }
     [Networked] private bool IsRunning { get; set; }
@@ -20,7 +22,7 @@ public class NetworkedTimer : NetworkBehaviour
     {
         if (!IsRunning) return;
 
-        // Freeze condition: Stop adding time when the escape rooms are hidden (game beat)
+        // Freeze condition: Stop updating time when the game is won
         if (progressManager != null && progressManager.FinalRoomsHidden)
         {
             IsRunning = false; 
@@ -31,27 +33,30 @@ public class NetworkedTimer : NetworkBehaviour
         ElapsedTime += Runner.DeltaTime;
     }
 
+    // Render updates ALL linked screens simultaneously every frame
     public override void Render()
     {
-        if (timerText != null)
+        string currentFormattedTime = FormatTime(ElapsedTime);
+
+        // Loop through every text component plugged into the Inspector array
+        foreach (TextMeshProUGUI textDisplay in timerTexts)
         {
-            timerText.text = FormatTime(ElapsedTime);
+            if (textDisplay != null)
+            {
+                textDisplay.text = currentFormattedTime;
+            }
         }
     }
 
-    // --- 🚨 THE MATCHING RPC FOR YOUR START BUTTON 🚨 ---
-    // This allows any player (All) to tell the Host (StateAuthority) to start the clock
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPC_StartTimer()
     {
-        // Don't restart the clock if the game is already won!
         if (progressManager != null && progressManager.FinalRoomsHidden) return;
 
         IsRunning = true;
         Debug.Log("[Timer Host Sync] Speedrun timer started via Player Button Click.");
     }
 
-    // Called automatically by RoomProgressManager when pressing the master 'B' button
     public void ResetTimerState()
     {
         if (!Object.HasStateAuthority) return;

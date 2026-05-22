@@ -14,11 +14,29 @@ public class RoomProgressManager : NetworkBehaviour
     [Header("Stage 3 Final Sequence (Rooms to hide)")]
     public GameObject[] lastRoomsToHide;
 
+    [Header("Central Audio Source")]
+    public AudioSource puzzleAudioSource;
+
+    [Header("Individual Puzzle Chimes")]
+    public AudioClip stage1ColorSolvedClip;
+    public AudioClip stage1KeySolvedClip;
+    public AudioClip stage2KeyZoneClip;
+    public AudioClip stage2KeypadClip;
+
+    [Header("Gate & Victory Sounds")]
+    public AudioClip stage1DoorOpenClip;
+    public AudioClip stage2DoorOpenClip;
+    public AudioClip gameCompleteClip;
+
     // --- NETWORKED STATE VARIABLES ---
     [Networked] public bool ColorSolved { get; set; }
     [Networked] public bool KeySolved { get; set; }
     [Networked] public bool Stage2KeyZoneSolved { get; set; }
     [Networked] public bool Stage2KeypadSolved { get; set; }
+
+    // Explicit tracking states to ensure audio only fires once per milestone
+    [Networked] private bool Stage1Complete { get; set; }
+    [Networked] private bool Stage2Complete { get; set; }
 
     // Hand scanner networked registers
     [Networked] public bool Scanner1Done { get; set; }
@@ -58,9 +76,35 @@ public class RoomProgressManager : NetworkBehaviour
                 if (room != null && !room.activeSelf) room.SetActive(true);
         }
 
-        // Catch keypad state rewinds locally
+        // Central Audio & UI State Sync Engine
         foreach (var change in _changes.DetectChanges(this))
         {
+            // === 1. INDIVIDUAL PUZZLE SOLVED CHIMES ===
+            if (change == nameof(ColorSolved) && ColorSolved)
+                PlayLocalSound(stage1ColorSolvedClip);
+
+            if (change == nameof(KeySolved) && KeySolved)
+                PlayLocalSound(stage1KeySolvedClip);
+
+            if (change == nameof(Stage2KeyZoneSolved) && Stage2KeyZoneSolved)
+                PlayLocalSound(stage2KeyZoneClip);
+
+            if (change == nameof(Stage2KeypadSolved) && Stage2KeypadSolved)
+                PlayLocalSound(stage2KeypadClip);
+
+
+            // === 2. MAJOR ENVIRONMENT DOOR SOUNDS ===
+            if (change == nameof(Stage1Complete) && Stage1Complete)
+                PlayLocalSound(stage1DoorOpenClip);
+
+            if (change == nameof(Stage2Complete) && Stage2Complete)
+                PlayLocalSound(stage2DoorOpenClip);
+
+            if (change == nameof(FinalRoomsHidden) && FinalRoomsHidden)
+                PlayLocalSound(gameCompleteClip);
+
+
+            // === 3. STANDALONE UI EXTRA CLEANUPS ===
             if (change == nameof(Stage2KeypadSolved))
             {
                 if (!Stage2KeypadSolved)
@@ -69,6 +113,14 @@ public class RoomProgressManager : NetworkBehaviour
                     if (keypadBridge != null) keypadBridge.ResetLocalKeypadUI();
                 }
             }
+        }
+    }
+
+    private void PlayLocalSound(AudioClip clip)
+    {
+        if (puzzleAudioSource != null && clip != null)
+        {
+            puzzleAudioSource.PlayOneShot(clip);
         }
     }
 
@@ -100,8 +152,9 @@ public class RoomProgressManager : NetworkBehaviour
     // --- CENTRAL EVALUATION CHECKS ---
     private void CheckStage1Completion()
     {
-        if (ColorSolved && KeySolved)
+        if (ColorSolved && KeySolved && !Stage1Complete)
         {
+            Stage1Complete = true; 
             if (stage1LeftDoor != null) stage1LeftDoor.IsOpen = true;
             if (stage1RightDoor != null) stage1RightDoor.IsOpen = true;
         }
@@ -109,8 +162,9 @@ public class RoomProgressManager : NetworkBehaviour
 
     private void CheckStage2Completion()
     {
-        if (Stage2KeyZoneSolved && Stage2KeypadSolved)
+        if (Stage2KeyZoneSolved && Stage2KeypadSolved && !Stage2Complete)
         {
+            Stage2Complete = true; 
             if (stage2LeftDoor != null) stage2LeftDoor.IsOpen = true;
             if (stage2RightDoor != null) stage2RightDoor.IsOpen = true;
         }
@@ -121,7 +175,7 @@ public class RoomProgressManager : NetworkBehaviour
         if (Scanner1Done && Scanner2Done && Scanner3Done && Scanner4Done)
         {
             Debug.Log("[HOST SUCCESS] All 4 Hand Trackers Finished! Hiding terminal rooms.");
-            FinalRoomsHidden = true; // This stops the speedrun clock automatically via network sync
+            FinalRoomsHidden = true; 
         }
     }
 
@@ -134,8 +188,10 @@ public class RoomProgressManager : NetworkBehaviour
         // 1. Clear Master Networked State Values
         ColorSolved = false;
         KeySolved = false;
+        Stage1Complete = false; 
         Stage2KeyZoneSolved = false;
         Stage2KeypadSolved = false;
+        Stage2Complete = false; 
         Scanner1Done = false;
         Scanner2Done = false;
         Scanner3Done = false;
@@ -169,6 +225,10 @@ public class RoomProgressManager : NetworkBehaviour
 
         // 7. Wipe Standalone Passcode UI
         RPC_BroadcastVisualReset();
+        
+        // 8. Automated Map Sweep: Find and reset the QR 3D mesh spawner setup
+        QRSpawner qrSpawner = UnityEngine.Object.FindFirstObjectByType<QRSpawner>();
+        if (qrSpawner != null) qrSpawner.ResetQRSpawnerState();
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]

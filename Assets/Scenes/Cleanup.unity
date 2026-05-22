@@ -772,7 +772,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &10941247
 Transform:
   m_ObjectHideFlags: 0
@@ -3572,7 +3572,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NetworkedTimer
   progressManager: {fileID: 354198574}
-  timerText: {fileID: 748938763}
+  timerTexts:
+  - {fileID: 748938763}
+  - {fileID: 1301379414}
 --- !u!114 &127749166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9240,8 +9242,8 @@ GameObject:
   m_Component:
   - component: {fileID: 354198575}
   - component: {fileID: 354198574}
-  - component: {fileID: 354198573}
   - component: {fileID: 354198576}
+  - component: {fileID: 354198577}
   m_Layer: 0
   m_Name: RoomProgressManager
   m_TagString: Untagged
@@ -9249,21 +9251,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &354198573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 354198572}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7cb08ea014989c4296e08840e65d681, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RoomGenerator
-  roomPrefabs:
-  - {fileID: 0}
-  - {fileID: 2700678792544268134, guid: 4cd256cf26098234abf05cc8346beda3, type: 3}
 --- !u!114 &354198574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9282,6 +9269,14 @@ MonoBehaviour:
   stage2RightDoor: {fileID: 812040715}
   lastRoomsToHide:
   - {fileID: 4401815093646130580}
+  puzzleAudioSource: {fileID: 354198577}
+  stage1ColorSolvedClip: {fileID: 8300000, guid: fe5603335869253409cb8d8119a25423, type: 3}
+  stage1KeySolvedClip: {fileID: 8300000, guid: fe5603335869253409cb8d8119a25423, type: 3}
+  stage2KeyZoneClip: {fileID: 8300000, guid: fe5603335869253409cb8d8119a25423, type: 3}
+  stage2KeypadClip: {fileID: 8300000, guid: fe5603335869253409cb8d8119a25423, type: 3}
+  stage1DoorOpenClip: {fileID: 8300000, guid: 738d314fea2da934a9d1212d7349d3f6, type: 3}
+  stage2DoorOpenClip: {fileID: 8300000, guid: 738d314fea2da934a9d1212d7349d3f6, type: 3}
+  gameCompleteClip: {fileID: 8300000, guid: b2af2f48134723744ad3975834abde37, type: 3}
   _ColorSolved: 0
   _KeySolved: 0
   _Stage2KeyZoneSolved: 0
@@ -9325,6 +9320,103 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 354198574}
   ForceRemoteRenderTimeframe: 0
+--- !u!82 &354198577
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354198572}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &360185119
 GameObject:
   m_ObjectHideFlags: 0
@@ -26393,7 +26485,7 @@ Transform:
   m_GameObject: {fileID: 1002165903}
   serializedVersion: 2
   m_LocalRotation: {x: -0.000000029802319, y: 0.9999703, z: -0.000000029802319, w: 0.0077051064}
-  m_LocalPosition: {x: -0.152, y: 0.422, z: 0.044}
+  m_LocalPosition: {x: -0.152, y: 0.41, z: 0.044}
   m_LocalScale: {x: 1.0484806, y: 2.3, z: 0.11211008}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -31179,7 +31271,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 34c478115d9c34893bcda6baee68c93e, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.804
+  m_Volume: 0.166
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -31660,7 +31752,7 @@ MonoBehaviour:
   - qrText: Maze_Room_01
     prefab:
       RawGuidValue: b2089768f912a62439f2beb8c03be9a3
-  - qrText: TEST_QR
+  - qrText: NUMBERS
     prefab:
       RawGuidValue: b2089768f912a62439f2beb8c03be9a3
 --- !u!114 &1253479794
@@ -37249,7 +37341,7 @@ Transform:
   m_GameObject: {fileID: 1490715943}
   serializedVersion: 2
   m_LocalRotation: {x: -0.00000000779545, y: 0.7016375, z: -8.84709e-17, w: 0.7125342}
-  m_LocalPosition: {x: -1.11, y: -0.0000000020813196, z: 3.3444674}
+  m_LocalPosition: {x: -1.525, y: 0.05, z: 3.3444674}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -37828,7 +37920,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NetworkedTimer
   progressManager: {fileID: 354198574}
-  timerText: {fileID: 1451717265}
+  timerTexts: []
 --- !u!1 &1510476635
 GameObject:
   m_ObjectHideFlags: 0
@@ -39389,6 +39481,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1317557856}
     m_Modifications:
+    - target: {fileID: 19957285236536199, guid: e8834596cd0a92e4eb4dee605bff1453, type: 3}
+      propertyPath: _volume
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 563831811783321906, guid: e8834596cd0a92e4eb4dee605bff1453, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.2
@@ -39405,6 +39501,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Buttons
       objectReference: {fileID: 0}
+    - target: {fileID: 836710671836601114, guid: e8834596cd0a92e4eb4dee605bff1453, type: 3}
+      propertyPath: _volume
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1065745558641973337, guid: e8834596cd0a92e4eb4dee605bff1453, type: 3}
       propertyPath: manager
       value: 
@@ -39417,6 +39517,10 @@ PrefabInstance:
       propertyPath: manager
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1535717503932346825, guid: e8834596cd0a92e4eb4dee605bff1453, type: 3}
+      propertyPath: _volume
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2170824227104667192, guid: e8834596cd0a92e4eb4dee605bff1453, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -39424,6 +39528,10 @@ PrefabInstance:
     - target: {fileID: 2170824228634395178, guid: e8834596cd0a92e4eb4dee605bff1453, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203814966930282836, guid: e8834596cd0a92e4eb4dee605bff1453, type: 3}
+      propertyPath: _volume
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2490293312031439615, guid: e8834596cd0a92e4eb4dee605bff1453, type: 3}
       propertyPath: manager
@@ -39501,6 +39609,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 7189483589495973797, guid: e8834596cd0a92e4eb4dee605bff1453, type: 3}
+      propertyPath: _volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7270567989847909998, guid: e8834596cd0a92e4eb4dee605bff1453, type: 3}
+      propertyPath: _volume
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7541711845254779974, guid: e8834596cd0a92e4eb4dee605bff1453, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -39509,6 +39625,14 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: e9324a29a1e842a4499226e1f6c9d53b, type: 3}
+    - target: {fileID: 8806048079432125629, guid: e8834596cd0a92e4eb4dee605bff1453, type: 3}
+      propertyPath: _volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9013194036979010934, guid: e8834596cd0a92e4eb4dee605bff1453, type: 3}
+      propertyPath: _volume
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2083555913771487339, guid: e8834596cd0a92e4eb4dee605bff1453, type: 3}
     m_RemovedGameObjects: []
@@ -42362,7 +42486,7 @@ Transform:
   m_GameObject: {fileID: 1689215020}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.521, y: 2.95, z: 1.018}
+  m_LocalPosition: {x: 5.521, y: 3.241, z: 1.018}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -42401,7 +42525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NetworkedTimer
   progressManager: {fileID: 354198574}
-  timerText: {fileID: 589733613}
+  timerTexts: []
 --- !u!1 &1693900494
 GameObject:
   m_ObjectHideFlags: 0
@@ -44647,7 +44771,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NetworkedTimer
   progressManager: {fileID: 354198574}
-  timerText: {fileID: 1301379414}
+  timerTexts: []
 --- !u!4 &1801467441
 Transform:
   m_ObjectHideFlags: 0
@@ -45619,6 +45743,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 820969500809806042, guid: d2d6934a666a18d46b8b7a3864dc9f63, type: 3}
+      propertyPath: _volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1564941960279960073, guid: d2d6934a666a18d46b8b7a3864dc9f63, type: 3}
+      propertyPath: _volume
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7516989854015812293, guid: d2d6934a666a18d46b8b7a3864dc9f63, type: 3}
       propertyPath: _whenSelect.m_PersistentCalls.m_Calls.Array.size
       value: 3
@@ -49491,7 +49623,7 @@ Transform:
   m_GameObject: {fileID: 1997552196}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.593, y: 3.04, z: -1.47}
+  m_LocalPosition: {x: 5.593, y: 3.16, z: -1.47}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -49530,7 +49662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NetworkedTimer
   progressManager: {fileID: 354198574}
-  timerText: {fileID: 1032815845}
+  timerTexts: []
 --- !u!1 &2000270687
 GameObject:
   m_ObjectHideFlags: 0
