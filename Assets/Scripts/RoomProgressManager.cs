@@ -29,9 +29,9 @@ public class RoomProgressManager : NetworkBehaviour
     public AudioClip gameCompleteClip;
 
     [Header("Volume Control Sliders")]
-    [Range(0f, 1f)] public float puzzleChimeVolume = 0.5f;   // Default to 50% volume
-    [Range(0f, 1f)] public float doorOpenVolume = 0.8f;     // Default to 80% volume
-    [Range(0f, 1f)] public float gameCompleteVolume = 1.0f; // Default to 100% volume
+    [Range(0f, 1f)] public float puzzleChimeVolume = 0.5f;   
+    [Range(0f, 1f)] public float doorOpenVolume = 0.8f;     
+    [Range(0f, 1f)] public float gameCompleteVolume = 1.0f; 
 
     // --- NETWORKED STATE VARIABLES ---
     [Networked] public bool ColorSolved { get; set; }
@@ -39,11 +39,9 @@ public class RoomProgressManager : NetworkBehaviour
     [Networked] public bool Stage2KeyZoneSolved { get; set; }
     [Networked] public bool Stage2KeypadSolved { get; set; }
 
-    // Explicit tracking states to ensure audio only fires once per milestone
     [Networked] private bool Stage1Complete { get; set; }
     [Networked] private bool Stage2Complete { get; set; }
 
-    // Hand scanner networked registers
     [Networked] public bool Scanner1Done { get; set; }
     [Networked] public bool Scanner2Done { get; set; }
     [Networked] public bool Scanner3Done { get; set; }
@@ -59,7 +57,6 @@ public class RoomProgressManager : NetworkBehaviour
 
     void Update()
     {
-        // Global master reset input listening
         if (OVRInput.GetDown(OVRInput.Button.Two) || Input.GetKeyDown(KeyCode.R))
         {
             Debug.Log("[ProgressManager] Reset Input Detected! Running Master Reset Sequence...");
@@ -69,7 +66,6 @@ public class RoomProgressManager : NetworkBehaviour
 
     public override void Render()
     {
-        // Reactive environment state management across all headsets simultaneously
         if (FinalRoomsHidden)
         {
             foreach (var room in lastRoomsToHide) 
@@ -81,7 +77,6 @@ public class RoomProgressManager : NetworkBehaviour
                 if (room != null && !room.activeSelf) room.SetActive(true);
         }
 
-        // Central Audio & UI State Sync Engine
         foreach (var change in _changes.DetectChanges(this))
         {
             // === 1. INDIVIDUAL PUZZLE SOLVED CHIMES ===
@@ -97,7 +92,6 @@ public class RoomProgressManager : NetworkBehaviour
             if (change == nameof(Stage2KeypadSolved) && Stage2KeypadSolved)
                 PlayLocalSound(stage2KeypadClip, puzzleChimeVolume);
 
-
             // === 2. MAJOR ENVIRONMENT DOOR SOUNDS ===
             if (change == nameof(Stage1Complete) && Stage1Complete)
                 PlayLocalSound(stage1DoorOpenClip, doorOpenVolume);
@@ -108,14 +102,17 @@ public class RoomProgressManager : NetworkBehaviour
             if (change == nameof(FinalRoomsHidden) && FinalRoomsHidden)
                 PlayLocalSound(gameCompleteClip, gameCompleteVolume);
 
-
             // === 3. STANDALONE UI EXTRA CLEANUPS ===
             if (change == nameof(Stage2KeypadSolved))
             {
                 if (!Stage2KeypadSolved)
                 {
-                    KeypadNetworkBridge keypadBridge = UnityEngine.Object.FindFirstObjectByType<KeypadNetworkBridge>();
-                    if (keypadBridge != null) keypadBridge.ResetLocalKeypadUI();
+                    // 🔥 FIX: Multi-array sweep finds all keypads instantly
+                    KeypadNetworkBridge[] keypadBridges = UnityEngine.Object.FindObjectsByType<KeypadNetworkBridge>(FindObjectsSortMode.None);
+                    foreach (KeypadNetworkBridge bridge in keypadBridges)
+                    {
+                        if (bridge != null) bridge.ResetLocalKeypadUI();
+                    }
                 }
             }
         }
@@ -129,7 +126,6 @@ public class RoomProgressManager : NetworkBehaviour
         }
     }
 
-    // --- PUZZLE SOLVED INTERACTION ROUTERS ---
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPC_ColorPuzzleSolved() { ColorSolved = true; CheckStage1Completion(); }
 
@@ -149,12 +145,9 @@ public class RoomProgressManager : NetworkBehaviour
         if (id == 2) Scanner2Done = true;
         if (id == 3) Scanner3Done = true;
         if (id == 4) Scanner4Done = true;
-
-        Debug.Log($"[Host Sync] Scanner Added -> S1:{Scanner1Done} | S2:{Scanner2Done} | S3:{Scanner3Done} | S4:{Scanner4Done}");
         CheckStage3Completion();
     }
 
-    // --- CENTRAL EVALUATION CHECKS ---
     private void CheckStage1Completion()
     {
         if (ColorSolved && KeySolved && !Stage1Complete)
@@ -179,7 +172,6 @@ public class RoomProgressManager : NetworkBehaviour
     {
         if (Scanner1Done && Scanner2Done && Scanner3Done && Scanner4Done)
         {
-            Debug.Log("[HOST SUCCESS] All 4 Hand Trackers Finished! Hiding terminal rooms.");
             FinalRoomsHidden = true; 
         }
     }
@@ -239,7 +231,11 @@ public class RoomProgressManager : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     private void RPC_BroadcastVisualReset()
     {
-        KeypadNetworkBridge keypadBridge = UnityEngine.Object.FindFirstObjectByType<KeypadNetworkBridge>();
-        if (keypadBridge != null) keypadBridge.ResetLocalKeypadUI();
+        // 🔥 FIX: Ensures all multi-client instances find and wipe all keypads simultaneously
+        KeypadNetworkBridge[] keypadBridges = UnityEngine.Object.FindObjectsByType<KeypadNetworkBridge>(FindObjectsSortMode.None);
+        foreach (KeypadNetworkBridge bridge in keypadBridges)
+        {
+            if (bridge != null) bridge.ResetLocalKeypadUI();
+        }
     }
 }

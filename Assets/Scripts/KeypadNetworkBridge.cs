@@ -6,10 +6,10 @@ public class KeypadNetworkBridge : NetworkBehaviour
     public RoomProgressManager progressManager;
 
     [Header("Local Keypad Integration")]
-    // Drag your 3D Keypad object (the one with the NavKeypad.Keypad script) here!
+    // Drag your 3D Keypad object (containing the NavKeypad.Keypad script) here!
     public NavKeypad.Keypad localKeypad; 
 
-    // This public method will be executed by your local Keypad script
+    // Executed by the local Keypad's UnityEvent (OnAccessGranted)
     public void OnKeypadAccessGranted()
     {
         Debug.Log("Keypad code sequence matched locally! Routing via RPC to Host.");
@@ -25,7 +25,6 @@ public class KeypadNetworkBridge : NetworkBehaviour
         }
     }
 
-    // THIS FIXES THE COMPILER ERROR
     public void ResetLocalKeypadUI()
     {
         if (localKeypad != null)
