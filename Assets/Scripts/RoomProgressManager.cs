@@ -28,6 +28,11 @@ public class RoomProgressManager : NetworkBehaviour
     public AudioClip stage2DoorOpenClip;
     public AudioClip gameCompleteClip;
 
+    [Header("Volume Control Sliders")]
+    [Range(0f, 1f)] public float puzzleChimeVolume = 0.5f;   // Default to 50% volume
+    [Range(0f, 1f)] public float doorOpenVolume = 0.8f;     // Default to 80% volume
+    [Range(0f, 1f)] public float gameCompleteVolume = 1.0f; // Default to 100% volume
+
     // --- NETWORKED STATE VARIABLES ---
     [Networked] public bool ColorSolved { get; set; }
     [Networked] public bool KeySolved { get; set; }
@@ -81,27 +86,27 @@ public class RoomProgressManager : NetworkBehaviour
         {
             // === 1. INDIVIDUAL PUZZLE SOLVED CHIMES ===
             if (change == nameof(ColorSolved) && ColorSolved)
-                PlayLocalSound(stage1ColorSolvedClip);
+                PlayLocalSound(stage1ColorSolvedClip, puzzleChimeVolume);
 
             if (change == nameof(KeySolved) && KeySolved)
-                PlayLocalSound(stage1KeySolvedClip);
+                PlayLocalSound(stage1KeySolvedClip, puzzleChimeVolume);
 
             if (change == nameof(Stage2KeyZoneSolved) && Stage2KeyZoneSolved)
-                PlayLocalSound(stage2KeyZoneClip);
+                PlayLocalSound(stage2KeyZoneClip, puzzleChimeVolume);
 
             if (change == nameof(Stage2KeypadSolved) && Stage2KeypadSolved)
-                PlayLocalSound(stage2KeypadClip);
+                PlayLocalSound(stage2KeypadClip, puzzleChimeVolume);
 
 
             // === 2. MAJOR ENVIRONMENT DOOR SOUNDS ===
             if (change == nameof(Stage1Complete) && Stage1Complete)
-                PlayLocalSound(stage1DoorOpenClip);
+                PlayLocalSound(stage1DoorOpenClip, doorOpenVolume);
 
             if (change == nameof(Stage2Complete) && Stage2Complete)
-                PlayLocalSound(stage2DoorOpenClip);
+                PlayLocalSound(stage2DoorOpenClip, doorOpenVolume);
 
             if (change == nameof(FinalRoomsHidden) && FinalRoomsHidden)
-                PlayLocalSound(gameCompleteClip);
+                PlayLocalSound(gameCompleteClip, gameCompleteVolume);
 
 
             // === 3. STANDALONE UI EXTRA CLEANUPS ===
@@ -116,11 +121,11 @@ public class RoomProgressManager : NetworkBehaviour
         }
     }
 
-    private void PlayLocalSound(AudioClip clip)
+    private void PlayLocalSound(AudioClip clip, float volumeMultiplier)
     {
         if (puzzleAudioSource != null && clip != null)
         {
-            puzzleAudioSource.PlayOneShot(clip);
+            puzzleAudioSource.PlayOneShot(clip, volumeMultiplier);
         }
     }
 
