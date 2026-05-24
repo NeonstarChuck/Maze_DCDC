@@ -9129,11 +9129,11 @@ MonoBehaviour:
   stage1KeySolvedClip: {fileID: 8300000, guid: fe5603335869253409cb8d8119a25423, type: 3}
   stage2KeyZoneClip: {fileID: 8300000, guid: fe5603335869253409cb8d8119a25423, type: 3}
   stage2KeypadClip: {fileID: 8300000, guid: fe5603335869253409cb8d8119a25423, type: 3}
-  stage1DoorOpenClip: {fileID: 8300000, guid: 738d314fea2da934a9d1212d7349d3f6, type: 3}
-  stage2DoorOpenClip: {fileID: 8300000, guid: 738d314fea2da934a9d1212d7349d3f6, type: 3}
+  stage1DoorOpenClip: {fileID: 8300000, guid: 3a3d87dd6290e7a4093fdcb6913ff215, type: 3}
+  stage2DoorOpenClip: {fileID: 8300000, guid: 3a3d87dd6290e7a4093fdcb6913ff215, type: 3}
   gameCompleteClip: {fileID: 8300000, guid: b2af2f48134723744ad3975834abde37, type: 3}
   puzzleChimeVolume: 0.405
-  doorOpenVolume: 0.787
+  doorOpenVolume: 0.749
   gameCompleteVolume: 0.72
   _ColorSolved: 0
   _KeySolved: 0

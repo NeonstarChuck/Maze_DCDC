@@ -65,7 +65,7 @@ public class KeyZoneStage2 : NetworkBehaviour
         }
         else
         {
-            statusText.text = "INSERT SECURITY KEY 02";
+            statusText.text = "INSERT SECURITY KEY";
             statusText.color = idleColor;
         }
     }
