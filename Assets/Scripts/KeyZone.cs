@@ -1,105 +1,157 @@
 using Fusion;
-using UnityEngine;
+using System.Collections;
 using TMPro;
+using UnityEngine;
 
 public class KeyZone : NetworkBehaviour
 {
+    [Header("KEY ZONE CONFIGURATION")]
     public RoomProgressManager progressManager;
-    public float triggerDistance = 0.25f;
+    [Tooltip("Set this to 1 for Stage 1, or 2 for Stage 2")]
+    public int stageNumber = 1;
+    public float triggerDistance = 0.04f; // Clean 4 centimeters for physical alignment
 
-    [Header("Target Tracking Transform (Controller/Hand/Key)")]
+    [Header("Target Tracking Transform (Small Card Child)")]
     public Transform targetControllerTransform;
 
     [Header("Puzzle Object (Will HIDE when solved)")]
     public GameObject hiddenObject;
 
     [Header("Co-op Status UI")]
-    public TextMeshProUGUI statusText;
-    public Color idleColor = Color.yellow;
+    public TMP_Text statusText;
+    public Color idleColor = Color.white;
     public Color successColor = Color.green;
 
-    [Networked] private bool Solved { get; set; }
+    [Header("Audio Custom Timeline Setup")]
+    public AudioSource audioSource;
+    public AudioClip keycardSequenceClip;
+    [Range(0f, 1f)] public float soundVolume = 0.8f;
+
+    // Networked synchronization states
+    [Networked] public bool IsSolved { get; set; }
+    [Networked] private bool IsProcessing { get; set; }
+
     private ChangeDetector _changes;
 
     public override void Spawned()
     {
         _changes = GetChangeDetector(ChangeDetector.Source.SimulationState);
-        UpdateHiddenObjectVisibility();
-        UpdateDisplay();
+        UpdateVisualsLocal();
     }
 
     void Update()
     {
-        if (Solved || targetControllerTransform == null) return;
+        if (IsSolved || IsProcessing || targetControllerTransform == null) return;
 
-        float dist = Vector3.Distance(targetControllerTransform.position, transform.position);
+        float currentDistance = Vector3.Distance(transform.position, targetControllerTransform.position);
 
-        if (dist < triggerDistance)
+        if (currentDistance <= triggerDistance)
         {
-            Debug.Log("Stage 1 Key puzzle triggered locally. Requesting Host to solve.");
-            RPC_RequestKeySolve();
+            Debug.Log($"[KeyZone] Card detected within distance ({currentDistance}m). Booting timeline sequence...");
+            RPC_StartSwipeSequence();
         }
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    private void RPC_StartSwipeSequence()
+    {
+        if (IsSolved || IsProcessing) return;
+        IsProcessing = true;
     }
 
     public override void Render()
     {
-        UpdateDisplay();
-
         foreach (var change in _changes.DetectChanges(this))
         {
-            if (change == nameof(Solved))
+            if (change == nameof(IsProcessing) && IsProcessing)
             {
-                UpdateHiddenObjectVisibility();
+                StartCoroutine(SwipeTimingSequenceRoutine());
+            }
+            if (change == nameof(IsSolved))
+            {
+                UpdateVisualsLocal();
             }
         }
     }
 
-    private void UpdateDisplay()
+    private IEnumerator SwipeTimingSequenceRoutine()
     {
-        if (statusText == null) return;
-
-        if (Solved)
+        // === MILESTONE 1: 0.0 Seconds ===
+        if (statusText != null)
         {
-            statusText.text = "SUCCESS!\nWAITING FOR OTHER PLAYER";
-            statusText.color = successColor;
-        }
-        else
-        {
-            statusText.text = "INSERT SECURITY KEY 01";
+            statusText.text = "Processing...";
             statusText.color = idleColor;
         }
-    }
-
-    private void UpdateHiddenObjectVisibility()
-{
-    if (hiddenObject != null)
-    {
-        hiddenObject.SetActive(Solved); // Unhides (Shows) when true!
-    }
-}
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    private void RPC_RequestKeySolve()
-    {
-        if (Solved) return;
         
-        Solved = true;
+        // SUSPENSE DELAY: Wait 2.5 seconds while display says "Processing..."
+        yield return new WaitForSeconds(2.5f);
 
-        if (progressManager == null) 
-            progressManager = UnityEngine.Object.FindAnyObjectByType<RoomProgressManager>();
+        // === MILESTONE 2: 2.5 Seconds ===
+        if (statusText != null) statusText.text = "Granting Access...";
 
-        if (progressManager != null)
+        // Play the 4-second track locally on the reader box object (Bling sound starts)
+        if (audioSource != null && keycardSequenceClip != null)
         {
-            // ROUTE TO STAGE 1
-            progressManager.RPC_KeyPuzzleSolved();
+            audioSource.PlayOneShot(keycardSequenceClip, soundVolume);
+        }
+
+        // Wait 2.0 seconds for the internal blings/silence portion of your clip to pass
+        yield return new WaitForSeconds(2.0f);
+
+        // === MILESTONE 3: 4.5 Seconds (The Audio Track hits the "Granted Sound") ===
+        if (statusText != null)
+        {
+            statusText.text = "Granted!";
+            statusText.color = successColor;
+        }
+
+        if (hiddenObject != null) hiddenObject.SetActive(false);
+
+        // Commit state to host authority at the VERY END of the timeline
+        if (HasStateAuthority)
+        {
+            IsSolved = true;
+            IsProcessing = false;
+            
+            // Fire RPC to open doors only AFTER the visual sequence finishes completely
+            if (progressManager != null)
+            {
+                if (stageNumber == 1) progressManager.RPC_KeyPuzzleSolved();
+                if (stageNumber == 2) progressManager.RPC_Stage2KeyZoneSolved();
+            }
+        }
+    }
+
+    private void UpdateVisualsLocal()
+    {
+        if (hiddenObject != null) hiddenObject.SetActive(!IsSolved);
+
+        if (statusText != null)
+        {
+            if (IsSolved)
+            {
+                statusText.text = "Granted!";
+                statusText.color = successColor;
+            }
+            else
+            {
+                statusText.text = "Insert Card";
+                statusText.color = idleColor;
+            }
         }
     }
 
     public void ResetKeyZoneState()
     {
-        if (!Object.HasStateAuthority) return;
+        StopAllCoroutines();
         
-        Solved = false;
-        UpdateHiddenObjectVisibility(); 
-        Debug.Log($"[{gameObject.name}] Stage 1 Key Zone reset complete.");
+        if (HasStateAuthority)
+        {
+            IsSolved = false;
+            IsProcessing = false;
+        }
+
+        if (audioSource != null) audioSource.Stop();
+        UpdateVisualsLocal();
     }
 }
