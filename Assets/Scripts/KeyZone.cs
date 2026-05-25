@@ -7,14 +7,14 @@ public class KeyZone : NetworkBehaviour
 {
     [Header("KEY ZONE CONFIGURATION")]
     public RoomProgressManager progressManager;
-    [Tooltip("Set this to 1 for Stage 1, or 2 for Stage 2")]
+    [Tooltip("Set this to 1 for Stage 1 (Unhides object), or 2 for Stage 2 (Hides object)")]
     public int stageNumber = 1;
     public float triggerDistance = 0.04f; // Clean 4 centimeters for physical alignment
 
     [Header("Target Tracking Transform (Small Card Child)")]
     public Transform targetControllerTransform;
 
-    [Header("Puzzle Object (Will HIDE when solved)")]
+    [Header("Puzzle Object (Dynamic Visibility)")]
     public GameObject hiddenObject;
 
     [Header("Co-op Status UI")]
@@ -76,36 +76,42 @@ public class KeyZone : NetworkBehaviour
 
     private IEnumerator SwipeTimingSequenceRoutine()
     {
-        // === MILESTONE 1: 0.0 Seconds ===
+        // === MILESTONE 1: 0.0 Seconds (Processing Begins) ===
         if (statusText != null)
         {
             statusText.text = "Processing...";
             statusText.color = idleColor;
         }
-        
-        // SUSPENSE DELAY: Wait 2.5 seconds while display says "Processing..."
-        yield return new WaitForSeconds(5.5f);
 
-        // === MILESTONE 2: 2.5 Seconds ===
-        if (statusText != null) statusText.text = "Granting Access...";
-
-        // Play the 4-second track locally on the reader box object (Bling sound starts)
+        // 🔥 FIXED: Sound now triggers immediately alongside the "Processing..." text switch!
         if (audioSource != null && keycardSequenceClip != null)
         {
             audioSource.PlayOneShot(keycardSequenceClip, soundVolume);
         }
+        
+        // SUSPENSE DELAY: Wait while audio plays and text reads "Processing..."
+        yield return new WaitForSeconds(5.5f);
 
-        // Wait 2.0 seconds for the internal blings/silence portion of your clip to pass
+        // === MILESTONE 2: Processing Complete ===
+        if (statusText != null) statusText.text = "Granting Access...";
+
         yield return new WaitForSeconds(0.1f);
 
-        // === MILESTONE 3: 4.5 Seconds (The Audio Track hits the "Granted Sound") ===
+        // === MILESTONE 3: Access Granted! ===
         if (statusText != null)
         {
             statusText.text = "Granted!";
             statusText.color = successColor;
         }
 
-        if (hiddenObject != null) hiddenObject.SetActive(false);
+        // DYNAMIC VISIBILITY CHECK 
+        if (hiddenObject != null) 
+        {
+            if (stageNumber == 1)
+                hiddenObject.SetActive(true);  // Stage 1: Reveal/Unhide when solved!
+            else
+                hiddenObject.SetActive(false); // Stage 2: Hide when solved!
+        }
 
         // Commit state to host authority at the VERY END of the timeline
         if (HasStateAuthority)
@@ -124,7 +130,14 @@ public class KeyZone : NetworkBehaviour
 
     private void UpdateVisualsLocal()
     {
-        if (hiddenObject != null) hiddenObject.SetActive(!IsSolved);
+        // DYNAMIC NETWORK REFRESH CHECK
+        if (hiddenObject != null)
+        {
+            if (stageNumber == 1)
+                hiddenObject.SetActive(IsSolved);  // Stage 1: Active if solved, Inactive if not
+            else
+                hiddenObject.SetActive(!IsSolved); // Stage 2: Inactive if solved, Active if not
+        }
 
         if (statusText != null)
         {
@@ -152,6 +165,6 @@ public class KeyZone : NetworkBehaviour
         }
 
         if (audioSource != null) audioSource.Stop();
-        UpdateVisualsLocal();
+        UpdateVisualsLocal(); 
     }
 }

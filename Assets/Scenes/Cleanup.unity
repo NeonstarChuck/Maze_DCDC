@@ -4052,7 +4052,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1797760339730403953, guid: e0bd23d26828e40479e8caaa8ee012d7, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1797760339730403953, guid: e0bd23d26828e40479e8caaa8ee012d7, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -4118,7 +4118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KeyZone
   progressManager: {fileID: 354198574}
   stageNumber: 1
-  triggerDistance: 0.1
+  triggerDistance: 0.15
   targetControllerTransform: {fileID: 226808885}
   hiddenObject: {fileID: 504141020}
   statusText: {fileID: 1032815845}
@@ -7017,7 +7017,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KeyZone
   progressManager: {fileID: 354198574}
   stageNumber: 2
-  triggerDistance: 0.2
+  triggerDistance: 0.1
   targetControllerTransform: {fileID: 712683020}
   hiddenObject: {fileID: 10941246}
   statusText: {fileID: 1451717265}
@@ -9488,7 +9488,7 @@ MonoBehaviour:
   gameCompleteClip: {fileID: 8300000, guid: b2af2f48134723744ad3975834abde37, type: 3}
   stage1DoorCloseClip: {fileID: 8300000, guid: 3a3d87dd6290e7a4093fdcb6913ff215, type: 3}
   stage2DoorCloseClip: {fileID: 8300000, guid: 3a3d87dd6290e7a4093fdcb6913ff215, type: 3}
-  doorCloseDelay: 4
+  doorCloseDelay: 6
   doorCloseSoundOffset: 1
   puzzleChimeVolume: 0.405
   doorOpenVolume: 0.749
@@ -23131,7 +23131,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -4.97, y: -1.699}
+  m_AnchoredPosition: {x: -4.97, y: -1.81}
   m_SizeDelta: {x: 500, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &874354551
@@ -41873,7 +41873,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 180, y: 270, z: -90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1998, y: 2891}
+  m_AnchoredPosition: {x: -1998, y: 3544}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1677164792
