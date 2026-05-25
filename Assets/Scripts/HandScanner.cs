@@ -1,5 +1,6 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class HandScanner : MonoBehaviour
 {
@@ -15,9 +16,11 @@ public class HandScanner : MonoBehaviour
     [SerializeField] private Color scanningColor = Color.green;
 
     [Header("Events")]
-    public UnityEngine.Events.UnityEvent onScanComplete; // Changed to public so the bridge can see it
+    public UnityEvent onScanComplete;
 
     private bool isScanning = false;
+
+    public bool IsCompleted { get; private set; }
 
     private void Start()
     {
@@ -27,7 +30,7 @@ public class HandScanner : MonoBehaviour
 
     public void StartScan()
     {
-        if (!isScanning)
+        if (!isScanning && !IsCompleted)
             StartCoroutine(ScanRoutine());
     }
 
@@ -39,35 +42,41 @@ public class HandScanner : MonoBehaviour
             scanBarRenderer.material.color = scanningColor;
 
         float elapsed = 0f;
+
         while (elapsed < scanDuration)
         {
             elapsed += Time.deltaTime;
             float t = elapsed / scanDuration;
-            scanBar.localPosition = Vector3.Lerp(scanStartLocalPos, scanEndLocalPos, t);
+
+            scanBar.localPosition =
+                Vector3.Lerp(scanStartLocalPos, scanEndLocalPos, t);
+
             yield return null;
         }
 
+        IsCompleted = true; // ✅ IMPORTANT SIGNAL FOR MANAGER
+
         onScanComplete?.Invoke();
+
         isScanning = false;
 
         if (scanBarRenderer != null)
             scanBarRenderer.material.color = idleColor;
-
-        scanBar.localPosition = scanStartLocalPos;
     }
 
-    // --- ADDED FOR THE MASTER RESET SYSTEM ---
     public void ResetScanner()
     {
         StopAllCoroutines();
+
         isScanning = false;
-        
+        IsCompleted = false; // reset state
+
         if (scanBarRenderer != null)
             scanBarRenderer.material.color = idleColor;
 
         if (scanBar != null)
             scanBar.localPosition = scanStartLocalPos;
-            
-        Debug.Log($"[{gameObject.name}] Scanner graphics safely restored to default.");
+
+        Debug.Log($"[{gameObject.name}] Scanner reset");
     }
 }
