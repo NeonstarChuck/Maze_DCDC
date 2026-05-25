@@ -15,8 +15,11 @@ public class RoomProgressManager : NetworkBehaviour
     [Header("Stage 3 Final Sequence (Rooms to hide)")]
     public GameObject[] lastRoomsToHide;
 
-    [Header("Central Audio Source")]
+    [Header("Central Audio Source (SFX Only)")]
     public AudioSource puzzleAudioSource;
+
+    [Header("Background Music System")]
+    public AudioSource bgmAudioSource; // 🔥 NEW: Dedicated source for looping background tracks
 
     [Header("Individual Puzzle Chimes")]
     public AudioClip stage1ColorSolvedClip;
@@ -38,7 +41,7 @@ public class RoomProgressManager : NetworkBehaviour
     public float doorCloseDelay = 4.0f; 
     
     [Tooltip("Triggers the sound this many seconds BEFORE the door closes. Use this to eliminate network lag or match door animations!")]
-    public float doorCloseSoundOffset = 1.0f; // 🔥 NEW: Adjust this to fix the 1-second sound lag!
+    public float doorCloseSoundOffset = 1.0f; 
 
     [Header("Volume Control Sliders")]
     [Range(0f, 1f)] public float puzzleChimeVolume = 0.5f;   
@@ -70,6 +73,12 @@ public class RoomProgressManager : NetworkBehaviour
     public override void Spawned()
     {
         _changes = GetChangeDetector(ChangeDetector.Source.SimulationState);
+        
+        // Ensure background music starts playing right away on spawn if assigned
+        if (bgmAudioSource != null && !bgmAudioSource.isPlaying)
+        {
+            bgmAudioSource.Play();
+        }
     }
 
     void Update()
@@ -187,14 +196,11 @@ public class RoomProgressManager : NetworkBehaviour
 
     private IEnumerator CloseStage1DoorsRoutine()
     {
-        // Calculate the initial wait period before playing the sound
         float timeBeforeSound = Mathf.Max(0f, doorCloseDelay - doorCloseSoundOffset);
         yield return new WaitForSeconds(timeBeforeSound);
         
-        // Play closing sound early to counteract network lag or match close animations
         RPC_PlayCloseSound(1); 
         
-        // Wait out the remaining offset duration before executing the physical visual door shut
         if (doorCloseSoundOffset > 0f)
         {
             yield return new WaitForSeconds(doorCloseSoundOffset);
@@ -219,14 +225,11 @@ public class RoomProgressManager : NetworkBehaviour
 
     private IEnumerator CloseStage2DoorsRoutine()
     {
-        // Calculate the initial wait period before playing the sound
         float timeBeforeSound = Mathf.Max(0f, doorCloseDelay - doorCloseSoundOffset);
         yield return new WaitForSeconds(timeBeforeSound);
         
-        // Play closing sound early to counteract network lag or match close animations
         RPC_PlayCloseSound(2); 
         
-        // Wait out the remaining offset duration before executing the physical visual door shut
         if (doorCloseSoundOffset > 0f)
         {
             yield return new WaitForSeconds(doorCloseSoundOffset);
@@ -296,8 +299,9 @@ public class RoomProgressManager : NetworkBehaviour
         } catch (System.Exception e) { Debug.LogError($"[Reset Leak] Timers failed: {e.Message}"); }
 
         try {
-            RPC_BroadcastVisualReset();
-        } catch (System.Exception e) { Debug.LogError($"[Reset Leak] Keypad Broadcast failed: {e.Message}"); }
+            // Updated name to reflect handling both visual and global audio wipes across clients
+            RPC_BroadcastClientReset();
+        } catch (System.Exception e) { Debug.LogError($"[Reset Leak] Client Broadcast failed: {e.Message}"); }
         
         try {
             QRSpawner qrSpawner = UnityEngine.Object.FindFirstObjectByType<QRSpawner>();
@@ -306,8 +310,15 @@ public class RoomProgressManager : NetworkBehaviour
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    private void RPC_BroadcastVisualReset()
+    private void RPC_BroadcastClientReset()
     {
+        // 🔥 FIXED: Stops and restarts the background music for everyone over the network
+        if (bgmAudioSource != null)
+        {
+            bgmAudioSource.Stop();
+            bgmAudioSource.Play();
+        }
+
         KeypadNetworkBridge[] keypadBridges = UnityEngine.Object.FindObjectsByType<KeypadNetworkBridge>(FindObjectsSortMode.None);
         foreach (KeypadNetworkBridge bridge in keypadBridges)
         {
