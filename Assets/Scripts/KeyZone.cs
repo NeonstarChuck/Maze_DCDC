@@ -84,7 +84,7 @@ public class KeyZone : NetworkBehaviour
         }
         
         // SUSPENSE DELAY: Wait 2.5 seconds while display says "Processing..."
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(5.5f);
 
         // === MILESTONE 2: 2.5 Seconds ===
         if (statusText != null) statusText.text = "Granting Access...";
@@ -96,7 +96,7 @@ public class KeyZone : NetworkBehaviour
         }
 
         // Wait 2.0 seconds for the internal blings/silence portion of your clip to pass
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(0.1f);
 
         // === MILESTONE 3: 4.5 Seconds (The Audio Track hits the "Granted Sound") ===
         if (statusText != null)
