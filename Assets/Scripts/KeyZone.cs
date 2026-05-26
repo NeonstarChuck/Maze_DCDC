@@ -143,12 +143,12 @@ public class KeyZone : NetworkBehaviour
         {
             if (IsSolved)
             {
-                statusText.text = "Granted!";
+                statusText.text = "Klart!";
                 statusText.color = successColor;
             }
             else
             {
-                statusText.text = "Insert Card";
+                statusText.text = "Placera Nyckeln";
                 statusText.color = idleColor;
             }
         }
