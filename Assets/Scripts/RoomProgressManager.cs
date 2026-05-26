@@ -1,3 +1,4 @@
+using System.Collections;
 using Fusion;
 using UnityEngine;
 
@@ -14,8 +15,11 @@ public class RoomProgressManager : NetworkBehaviour
     [Header("Stage 3 Final Sequence (Rooms to hide)")]
     public GameObject[] lastRoomsToHide;
 
-    [Header("Central Audio Source")]
+    [Header("Central Audio Source (SFX Only)")]
     public AudioSource puzzleAudioSource;
+
+    [Header("Background Music System")]
+    public AudioSource bgmAudioSource; // 🔥 NEW: Dedicated source for looping background tracks
 
     [Header("Individual Puzzle Chimes")]
     public AudioClip stage1ColorSolvedClip;
@@ -28,9 +32,21 @@ public class RoomProgressManager : NetworkBehaviour
     public AudioClip stage2DoorOpenClip;
     public AudioClip gameCompleteClip;
 
+    [Header("Door Close Sounds")]
+    public AudioClip stage1DoorCloseClip;
+    public AudioClip stage2DoorCloseClip;
+
+    [Header("Timing Settings")]
+    [Tooltip("Total time in seconds before doors automatically close after being solved.")]
+    public float doorCloseDelay = 4.0f; 
+    
+    [Tooltip("Triggers the sound this many seconds BEFORE the door closes. Use this to eliminate network lag or match door animations!")]
+    public float doorCloseSoundOffset = 1.0f; 
+
     [Header("Volume Control Sliders")]
     [Range(0f, 1f)] public float puzzleChimeVolume = 0.5f;   
     [Range(0f, 1f)] public float doorOpenVolume = 0.8f;     
+    [Range(0f, 1f)] public float doorCloseVolume = 0.7f;    
     [Range(0f, 1f)] public float gameCompleteVolume = 1.0f; 
 
     // --- NETWORKED STATE VARIABLES ---
@@ -50,9 +66,19 @@ public class RoomProgressManager : NetworkBehaviour
 
     private ChangeDetector _changes;
 
+    // Local tracking handles to safely kill active timers on reset
+    private Coroutine stage1CloseCoroutine;
+    private Coroutine stage2CloseCoroutine;
+
     public override void Spawned()
     {
         _changes = GetChangeDetector(ChangeDetector.Source.SimulationState);
+        
+        // Ensure background music starts playing right away on spawn if assigned
+        if (bgmAudioSource != null && !bgmAudioSource.isPlaying)
+        {
+            bgmAudioSource.Play();
+        }
     }
 
     void Update()
@@ -92,7 +118,7 @@ public class RoomProgressManager : NetworkBehaviour
             if (change == nameof(Stage2KeypadSolved) && Stage2KeypadSolved)
                 PlayLocalSound(stage2KeypadClip, puzzleChimeVolume);
 
-            // === 2. MAJOR ENVIRONMENT DOOR SOUNDS ===
+            // === 2. MAJOR ENVIRONMENT DOOR OPEN SOUNDS ===
             if (change == nameof(Stage1Complete) && Stage1Complete)
                 PlayLocalSound(stage1DoorOpenClip, doorOpenVolume);
 
@@ -107,7 +133,6 @@ public class RoomProgressManager : NetworkBehaviour
             {
                 if (!Stage2KeypadSolved)
                 {
-                    // 🔥 FIX: Multi-array sweep finds all keypads instantly
                     KeypadNetworkBridge[] keypadBridges = UnityEngine.Object.FindObjectsByType<KeypadNetworkBridge>(FindObjectsSortMode.None);
                     foreach (KeypadNetworkBridge bridge in keypadBridges)
                     {
@@ -124,6 +149,13 @@ public class RoomProgressManager : NetworkBehaviour
         {
             puzzleAudioSource.PlayOneShot(clip, volumeMultiplier);
         }
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    private void RPC_PlayCloseSound(int stageID)
+    {
+        if (stageID == 1) PlayLocalSound(stage1DoorCloseClip, doorCloseVolume);
+        if (stageID == 2) PlayLocalSound(stage2DoorCloseClip, doorCloseVolume);
     }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
@@ -143,11 +175,12 @@ public class RoomProgressManager : NetworkBehaviour
     {
         if (id == 1) Scanner1Done = true;
         if (id == 2) Scanner2Done = true;
-        if (id == 3) Scanner3Done = true;
+        if (id == 3) Scanner3Done = true; 
         if (id == 4) Scanner4Done = true;
         CheckStage3Completion();
     }
 
+    // --- AUTOMATED TIMED CLOSING SEQUENCE ENGINE ---
     private void CheckStage1Completion()
     {
         if (ColorSolved && KeySolved && !Stage1Complete)
@@ -155,7 +188,26 @@ public class RoomProgressManager : NetworkBehaviour
             Stage1Complete = true; 
             if (stage1LeftDoor != null) stage1LeftDoor.IsOpen = true;
             if (stage1RightDoor != null) stage1RightDoor.IsOpen = true;
+
+            if (stage1CloseCoroutine != null) StopCoroutine(stage1CloseCoroutine);
+            stage1CloseCoroutine = StartCoroutine(CloseStage1DoorsRoutine());
         }
+    }
+
+    private IEnumerator CloseStage1DoorsRoutine()
+    {
+        float timeBeforeSound = Mathf.Max(0f, doorCloseDelay - doorCloseSoundOffset);
+        yield return new WaitForSeconds(timeBeforeSound);
+        
+        RPC_PlayCloseSound(1); 
+        
+        if (doorCloseSoundOffset > 0f)
+        {
+            yield return new WaitForSeconds(doorCloseSoundOffset);
+        }
+
+        if (stage1LeftDoor != null) stage1LeftDoor.IsOpen = false;
+        if (stage1RightDoor != null) stage1RightDoor.IsOpen = false;
     }
 
     private void CheckStage2Completion()
@@ -165,7 +217,26 @@ public class RoomProgressManager : NetworkBehaviour
             Stage2Complete = true; 
             if (stage2LeftDoor != null) stage2LeftDoor.IsOpen = true;
             if (stage2RightDoor != null) stage2RightDoor.IsOpen = true;
+
+            if (stage2CloseCoroutine != null) StopCoroutine(stage2CloseCoroutine);
+            stage2CloseCoroutine = StartCoroutine(CloseStage2DoorsRoutine());
         }
+    }
+
+    private IEnumerator CloseStage2DoorsRoutine()
+    {
+        float timeBeforeSound = Mathf.Max(0f, doorCloseDelay - doorCloseSoundOffset);
+        yield return new WaitForSeconds(timeBeforeSound);
+        
+        RPC_PlayCloseSound(2); 
+        
+        if (doorCloseSoundOffset > 0f)
+        {
+            yield return new WaitForSeconds(doorCloseSoundOffset);
+        }
+
+        if (stage2LeftDoor != null) stage2LeftDoor.IsOpen = false;
+        if (stage2RightDoor != null) stage2RightDoor.IsOpen = false;
     }
 
     private void CheckStage3Completion()
@@ -176,13 +247,15 @@ public class RoomProgressManager : NetworkBehaviour
         }
     }
 
-    // --- THE MASTER WIPE SYSTEM ---
+    // --- THE BULLETPROOF MASTER WIPE SYSTEM ---
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPC_RequestReset()
     {
-        Debug.Log("[Master System Wipe] Re-locking environments, resetting clocks and defaulting puzzles.");
+        Debug.Log("[Master System Wipe] Initiating protected system reset chain...");
 
-        // 1. Clear Master Networked State Values
+        if (stage1CloseCoroutine != null) StopCoroutine(stage1CloseCoroutine);
+        if (stage2CloseCoroutine != null) StopCoroutine(stage2CloseCoroutine);
+
         ColorSolved = false;
         KeySolved = false;
         Stage1Complete = false; 
@@ -195,43 +268,57 @@ public class RoomProgressManager : NetworkBehaviour
         Scanner4Done = false;
         FinalRoomsHidden = false;
 
-        // 2. Shut All Doors
-        if (stage1LeftDoor != null) stage1LeftDoor.IsOpen = false;
-        if (stage1RightDoor != null) stage1RightDoor.IsOpen = false;
-        if (stage2LeftDoor != null) stage2LeftDoor.IsOpen = false;
-        if (stage2RightDoor != null) stage2RightDoor.IsOpen = false;
+        try {
+            if (stage1LeftDoor != null) stage1LeftDoor.IsOpen = false;
+            if (stage1RightDoor != null) stage1RightDoor.IsOpen = false;
+            if (stage2LeftDoor != null) stage2LeftDoor.IsOpen = false;
+            if (stage2RightDoor != null) stage2RightDoor.IsOpen = false;
+        } catch (System.Exception e) { Debug.LogError($"[Reset Leak] Doors failed: {e.Message}"); }
 
-        // 3. Clear Color Combinations
-        PuzzleManager[] colorPuzzles = UnityEngine.Object.FindObjectsByType<PuzzleManager>(FindObjectsSortMode.None);
-        foreach (PuzzleManager p in colorPuzzles) if (p != null) p.ResetPuzzleState();
+        try {
+            PuzzleManager[] colorPuzzles = UnityEngine.Object.FindObjectsByType<PuzzleManager>(FindObjectsSortMode.None);
+            foreach (PuzzleManager p in colorPuzzles) if (p != null) p.ResetPuzzleState();
+        } catch (System.Exception e) { Debug.LogError($"[Reset Leak] Color Puzzles failed: {e.Message}"); }
 
-        // 4. Clear Proximity Key Zones (Stage 1 & Stage 2)
-        KeyZone[] keyZones = UnityEngine.Object.FindObjectsByType<KeyZone>(FindObjectsSortMode.None);
-        foreach (KeyZone kz in keyZones) if (kz != null) kz.ResetKeyZoneState();
+        try {
+            KeyZone[] keyZones = UnityEngine.Object.FindObjectsByType<KeyZone>(FindObjectsSortMode.None);
+            foreach (KeyZone kz in keyZones) if (kz != null) kz.ResetKeyZoneState();
 
-        KeyZoneStage2[] stage2KeyZones = UnityEngine.Object.FindObjectsByType<KeyZoneStage2>(FindObjectsSortMode.None);
-        foreach (KeyZoneStage2 kz2 in stage2KeyZones) if (kz2 != null) kz2.ResetKeyZoneState();
+            KeyZoneStage2[] stage2KeyZones = UnityEngine.Object.FindObjectsByType<KeyZoneStage2>(FindObjectsSortMode.None);
+            foreach (KeyZoneStage2 kz2 in stage2KeyZones) if (kz2 != null) kz2.ResetKeyZoneState();
+        } catch (System.Exception e) { Debug.LogError($"[Reset Leak] Key Zones failed: {e.Message}"); }
 
-        // 5. Automated Map Sweep: Find and reset all visual HandScanner components
-        HandScanner[] scanners = UnityEngine.Object.FindObjectsByType<HandScanner>(FindObjectsSortMode.None);
-        foreach (HandScanner hs in scanners) if (hs != null) hs.ResetScanner();
+        try {
+            HandScanner[] scanners = UnityEngine.Object.FindObjectsByType<HandScanner>(FindObjectsSortMode.None);
+            foreach (HandScanner hs in scanners) if (hs != null) hs.ResetScanner();
+        } catch (System.Exception e) { Debug.LogError($"[Reset Leak] Hand Scanners failed: {e.Message}"); }
 
-        // 6. Automated Map Sweep: Find and zero out multiplayer speedrun timers
-        NetworkedTimer[] timers = UnityEngine.Object.FindObjectsByType<NetworkedTimer>(FindObjectsSortMode.None);
-        foreach (NetworkedTimer t in timers) if (t != null) t.ResetTimerState();
+        try {
+            NetworkedTimer[] timers = UnityEngine.Object.FindObjectsByType<NetworkedTimer>(FindObjectsSortMode.None);
+            foreach (NetworkedTimer t in timers) if (t != null) t.ResetTimerState();
+        } catch (System.Exception e) { Debug.LogError($"[Reset Leak] Timers failed: {e.Message}"); }
 
-        // 7. Wipe Standalone Passcode UI
-        RPC_BroadcastVisualReset();
+        try {
+            // Updated name to reflect handling both visual and global audio wipes across clients
+            RPC_BroadcastClientReset();
+        } catch (System.Exception e) { Debug.LogError($"[Reset Leak] Client Broadcast failed: {e.Message}"); }
         
-        // 8. Automated Map Sweep: Find and reset the QR 3D mesh spawner setup
-        QRSpawner qrSpawner = UnityEngine.Object.FindFirstObjectByType<QRSpawner>();
-        if (qrSpawner != null) qrSpawner.ResetQRSpawnerState();
+        try {
+            QRSpawner qrSpawner = UnityEngine.Object.FindFirstObjectByType<QRSpawner>();
+            if (qrSpawner != null) qrSpawner.ResetQRSpawnerState();
+        } catch (System.Exception e) { Debug.LogError($"[Reset Leak] QR Spawner failed: {e.Message}"); }
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    private void RPC_BroadcastVisualReset()
+    private void RPC_BroadcastClientReset()
     {
-        // 🔥 FIX: Ensures all multi-client instances find and wipe all keypads simultaneously
+        // 🔥 FIXED: Stops and restarts the background music for everyone over the network
+        if (bgmAudioSource != null)
+        {
+            bgmAudioSource.Stop();
+            bgmAudioSource.Play();
+        }
+
         KeypadNetworkBridge[] keypadBridges = UnityEngine.Object.FindObjectsByType<KeypadNetworkBridge>(FindObjectsSortMode.None);
         foreach (KeypadNetworkBridge bridge in keypadBridges)
         {
