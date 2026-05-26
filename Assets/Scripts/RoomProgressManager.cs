@@ -16,6 +16,12 @@ public class RoomProgressManager : NetworkBehaviour
     [Header("Stage 3 Final Sequence (Rooms to hide)")]
     public GameObject[] lastRoomsToHide;
 
+    [Header("Victory Effects & Text")]
+    [Tooltip("Dra in ditt fyrverkeri-partikelsystem här.")]
+    public ParticleSystem victoryParticleEffect;
+    [Tooltip("Dra in ditt vinst-textobjekt (t.ex. 3D Text Mesh för '67 67') här.")]
+    public GameObject victoryTextObject;
+
     [Header("Central Audio Source (SFX Only)")]
     public AudioSource puzzleAudioSource;
 
@@ -136,8 +142,21 @@ public class RoomProgressManager : NetworkBehaviour
             if (change == nameof(Stage2Complete) && Stage2Complete)
                 PlayLocalSound(stage2DoorOpenClip, doorOpenVolume);
 
+            // --- VICTORY EFFECTS TRIGGER ---
             if (change == nameof(FinalRoomsHidden) && FinalRoomsHidden)
+            {
                 PlayLocalSound(gameCompleteClip, gameCompleteVolume);
+
+                if (victoryParticleEffect != null)
+                {
+                    victoryParticleEffect.Play();
+                }
+
+                if (victoryTextObject != null)
+                {
+                    victoryTextObject.SetActive(true);
+                }
+            }
 
             if (change == nameof(Stage2KeypadSolved))
             {
@@ -204,7 +223,6 @@ public class RoomProgressManager : NetworkBehaviour
         if (stage2LeftDoor != null) stage2LeftDoor.IsOpen = true;
         if (stage2RightDoor != null) stage2RightDoor.IsOpen = true;
 
-        // Uses the inspector range slider value to stay open
         yield return new WaitForSeconds(emergencyOpenDuration);
 
         if (stage1LeftDoor != null) stage1LeftDoor.IsOpen = false;
@@ -336,11 +354,6 @@ public class RoomProgressManager : NetworkBehaviour
         try {
             RPC_BroadcastClientReset();
         } catch (System.Exception e) { Debug.LogError($"[Reset Leak] Client Broadcast failed: {e.Message}"); }
-        
-        try {
-            QRSpawner qrSpawner = UnityEngine.Object.FindFirstObjectByType<QRSpawner>();
-            if (qrSpawner != null) qrSpawner.ResetQRSpawnerState();
-        } catch (System.Exception e) { Debug.LogError($"[Reset Leak] QR Spawner failed: {e.Message}"); }
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
@@ -351,6 +364,9 @@ public class RoomProgressManager : NetworkBehaviour
             bgmAudioSource.Stop();
             bgmAudioSource.Play();
         }
+
+        if (victoryParticleEffect != null) victoryParticleEffect.Stop();
+        if (victoryTextObject != null) victoryTextObject.SetActive(false);
 
         KeypadNetworkBridge[] keypadBridges = UnityEngine.Object.FindObjectsByType<KeypadNetworkBridge>(FindObjectsSortMode.None);
         foreach (KeypadNetworkBridge bridge in keypadBridges)

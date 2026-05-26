@@ -74,7 +74,7 @@ public class PuzzleManager : NetworkBehaviour
         // State 1: Puzzle is fully completed (Matches KeyZone Co-op style!)
         if (Solved)
         {
-            statusText.text = "Korrekt!\nVäntar på spelare 2";
+            statusText.text = "Korrekt!\nFortsätt till nästa rum";
             statusText.color = successColor;
             return;
         }

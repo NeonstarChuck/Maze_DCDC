@@ -143,7 +143,7 @@ public class KeyZone : NetworkBehaviour
         {
             if (IsSolved)
             {
-                statusText.text = "Klart!";
+                statusText.text = "Klart! Ledtråd finns bakom dig!";
                 statusText.color = successColor;
             }
             else
