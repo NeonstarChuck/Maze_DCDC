@@ -79,7 +79,7 @@ public class KeyZone : NetworkBehaviour
         // === MILESTONE 1: 0.0 Seconds (Processing Begins) ===
         if (statusText != null)
         {
-            statusText.text = "Processing...";
+            statusText.text = "Väntar...";
             statusText.color = idleColor;
         }
 
@@ -93,14 +93,14 @@ public class KeyZone : NetworkBehaviour
         yield return new WaitForSeconds(5.5f);
 
         // === MILESTONE 2: Processing Complete ===
-        if (statusText != null) statusText.text = "Granting Access...";
+        if (statusText != null) statusText.text = "Snart där...";
 
         yield return new WaitForSeconds(0.1f);
 
         // === MILESTONE 3: Access Granted! ===
         if (statusText != null)
         {
-            statusText.text = "Granted!";
+            statusText.text = "Klart!";
             statusText.color = successColor;
         }
 
@@ -143,12 +143,12 @@ public class KeyZone : NetworkBehaviour
         {
             if (IsSolved)
             {
-                statusText.text = "Granted!";
+                statusText.text = "Klart! Ledtråd finns bakom dig!";
                 statusText.color = successColor;
             }
             else
             {
-                statusText.text = "Insert Card";
+                statusText.text = "Placera Nyckeln";
                 statusText.color = idleColor;
             }
         }
