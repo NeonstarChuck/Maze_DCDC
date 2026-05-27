@@ -1,6 +1,7 @@
 using System.Collections;
 using Fusion;
 using UnityEngine;
+using UnityEngine.InputSystem; // Required for the new Input System on Mac/Editor
 
 public class RoomProgressManager : NetworkBehaviour
 {
@@ -15,11 +16,17 @@ public class RoomProgressManager : NetworkBehaviour
     [Header("Stage 3 Final Sequence (Rooms to hide)")]
     public GameObject[] lastRoomsToHide;
 
+    [Header("Victory Effects & Text")]
+    [Tooltip("Dra in ditt fyrverkeri-partikelsystem här.")]
+    public ParticleSystem victoryParticleEffect;
+    [Tooltip("Dra in ditt vinst-textobjekt (t.ex. 3D Text Mesh för '67 67') här.")]
+    public GameObject victoryTextObject;
+
     [Header("Central Audio Source (SFX Only)")]
     public AudioSource puzzleAudioSource;
 
     [Header("Background Music System")]
-    public AudioSource bgmAudioSource; // 🔥 NEW: Dedicated source for looping background tracks
+    public AudioSource bgmAudioSource; 
 
     [Header("Individual Puzzle Chimes")]
     public AudioClip stage1ColorSolvedClip;
@@ -42,6 +49,11 @@ public class RoomProgressManager : NetworkBehaviour
     
     [Tooltip("Triggers the sound this many seconds BEFORE the door closes. Use this to eliminate network lag or match door animations!")]
     public float doorCloseSoundOffset = 1.0f; 
+
+    // Inspector slider to choose exactly how many seconds the emergency release lasts
+    [Range(1f, 20f)]
+    [Tooltip("How many seconds the doors stay open when the Big Red Emergency Button is pushed.")]
+    public float emergencyOpenDuration = 5.0f;
 
     [Header("Volume Control Sliders")]
     [Range(0f, 1f)] public float puzzleChimeVolume = 0.5f;   
@@ -66,15 +78,14 @@ public class RoomProgressManager : NetworkBehaviour
 
     private ChangeDetector _changes;
 
-    // Local tracking handles to safely kill active timers on reset
     private Coroutine stage1CloseCoroutine;
     private Coroutine stage2CloseCoroutine;
+    private Coroutine emergencyOverrideCoroutine; 
 
     public override void Spawned()
     {
         _changes = GetChangeDetector(ChangeDetector.Source.SimulationState);
         
-        // Ensure background music starts playing right away on spawn if assigned
         if (bgmAudioSource != null && !bgmAudioSource.isPlaying)
         {
             bgmAudioSource.Play();
@@ -83,10 +94,18 @@ public class RoomProgressManager : NetworkBehaviour
 
     void Update()
     {
-        if (OVRInput.GetDown(OVRInput.Button.Two) || Input.GetKeyDown(KeyCode.R))
+        // Button B on Quest Controller OR R Key on Mac -> Master System Reset
+        if (OVRInput.GetDown(OVRInput.Button.Two) || (Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame))
         {
             Debug.Log("[ProgressManager] Reset Input Detected! Running Master Reset Sequence...");
             RPC_RequestReset();
+        }
+
+        // E Key on Mac/Editor ONLY to manually test the emergency override sequence locally
+        if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            Debug.Log("[ProgressManager] Emergency Override Triggered via Keyboard! Opening all doors temporarily...");
+            RPC_RequestEmergencyOverride();
         }
     }
 
@@ -105,7 +124,6 @@ public class RoomProgressManager : NetworkBehaviour
 
         foreach (var change in _changes.DetectChanges(this))
         {
-            // === 1. INDIVIDUAL PUZZLE SOLVED CHIMES ===
             if (change == nameof(ColorSolved) && ColorSolved)
                 PlayLocalSound(stage1ColorSolvedClip, puzzleChimeVolume);
 
@@ -118,17 +136,28 @@ public class RoomProgressManager : NetworkBehaviour
             if (change == nameof(Stage2KeypadSolved) && Stage2KeypadSolved)
                 PlayLocalSound(stage2KeypadClip, puzzleChimeVolume);
 
-            // === 2. MAJOR ENVIRONMENT DOOR OPEN SOUNDS ===
             if (change == nameof(Stage1Complete) && Stage1Complete)
                 PlayLocalSound(stage1DoorOpenClip, doorOpenVolume);
 
             if (change == nameof(Stage2Complete) && Stage2Complete)
                 PlayLocalSound(stage2DoorOpenClip, doorOpenVolume);
 
+            // --- VICTORY EFFECTS TRIGGER ---
             if (change == nameof(FinalRoomsHidden) && FinalRoomsHidden)
+            {
                 PlayLocalSound(gameCompleteClip, gameCompleteVolume);
 
-            // === 3. STANDALONE UI EXTRA CLEANUPS ===
+                if (victoryParticleEffect != null)
+                {
+                    victoryParticleEffect.Play();
+                }
+
+                if (victoryTextObject != null)
+                {
+                    victoryTextObject.SetActive(true);
+                }
+            }
+
             if (change == nameof(Stage2KeypadSolved))
             {
                 if (!Stage2KeypadSolved)
@@ -180,7 +209,31 @@ public class RoomProgressManager : NetworkBehaviour
         CheckStage3Completion();
     }
 
-    // --- AUTOMATED TIMED CLOSING SEQUENCE ENGINE ---
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_RequestEmergencyOverride()
+    {
+        if (emergencyOverrideCoroutine != null) StopCoroutine(emergencyOverrideCoroutine);
+        emergencyOverrideCoroutine = StartCoroutine(EmergencyOverrideRoutine());
+    }
+
+    private IEnumerator EmergencyOverrideRoutine()
+    {
+        if (stage1LeftDoor != null) stage1LeftDoor.IsOpen = true;
+        if (stage1RightDoor != null) stage1RightDoor.IsOpen = true;
+        if (stage2LeftDoor != null) stage2LeftDoor.IsOpen = true;
+        if (stage2RightDoor != null) stage2RightDoor.IsOpen = true;
+
+        yield return new WaitForSeconds(emergencyOpenDuration);
+
+        if (stage1LeftDoor != null) stage1LeftDoor.IsOpen = false;
+        if (stage1RightDoor != null) stage1RightDoor.IsOpen = false;
+        if (stage2LeftDoor != null) stage2LeftDoor.IsOpen = false;
+        if (stage2RightDoor != null) stage2RightDoor.IsOpen = false;
+
+        RPC_PlayCloseSound(1);
+        RPC_PlayCloseSound(2);
+    }
+
     private void CheckStage1Completion()
     {
         if (ColorSolved && KeySolved && !Stage1Complete)
@@ -247,7 +300,6 @@ public class RoomProgressManager : NetworkBehaviour
         }
     }
 
-    // --- THE BULLETPROOF MASTER WIPE SYSTEM ---
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RPC_RequestReset()
     {
@@ -255,6 +307,7 @@ public class RoomProgressManager : NetworkBehaviour
 
         if (stage1CloseCoroutine != null) StopCoroutine(stage1CloseCoroutine);
         if (stage2CloseCoroutine != null) StopCoroutine(stage2CloseCoroutine);
+        if (emergencyOverrideCoroutine != null) StopCoroutine(emergencyOverrideCoroutine);
 
         ColorSolved = false;
         KeySolved = false;
@@ -299,25 +352,21 @@ public class RoomProgressManager : NetworkBehaviour
         } catch (System.Exception e) { Debug.LogError($"[Reset Leak] Timers failed: {e.Message}"); }
 
         try {
-            // Updated name to reflect handling both visual and global audio wipes across clients
             RPC_BroadcastClientReset();
         } catch (System.Exception e) { Debug.LogError($"[Reset Leak] Client Broadcast failed: {e.Message}"); }
-        
-        try {
-            QRSpawner qrSpawner = UnityEngine.Object.FindFirstObjectByType<QRSpawner>();
-            if (qrSpawner != null) qrSpawner.ResetQRSpawnerState();
-        } catch (System.Exception e) { Debug.LogError($"[Reset Leak] QR Spawner failed: {e.Message}"); }
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     private void RPC_BroadcastClientReset()
     {
-        // 🔥 FIXED: Stops and restarts the background music for everyone over the network
         if (bgmAudioSource != null)
         {
             bgmAudioSource.Stop();
             bgmAudioSource.Play();
         }
+
+        if (victoryParticleEffect != null) victoryParticleEffect.Stop();
+        if (victoryTextObject != null) victoryTextObject.SetActive(false);
 
         KeypadNetworkBridge[] keypadBridges = UnityEngine.Object.FindObjectsByType<KeypadNetworkBridge>(FindObjectsSortMode.None);
         foreach (KeypadNetworkBridge bridge in keypadBridges)

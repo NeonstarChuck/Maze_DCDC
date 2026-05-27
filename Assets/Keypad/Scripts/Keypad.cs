@@ -19,8 +19,8 @@ namespace NavKeypad
         public UnityEvent OnAccessDenied => onAccessDenied;
 
         [Header("Settings")]
-        [SerializeField] private string accessGrantedText = "Granted";
-        [SerializeField] private string accessDeniedText = "Denied";
+        [SerializeField] private string accessGrantedText = "Korrekt";
+        [SerializeField] private string accessDeniedText = "Fel";
 
         [Header("Visuals")]
         [SerializeField] private float displayResultTime = 1f;

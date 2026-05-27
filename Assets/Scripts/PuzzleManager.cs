@@ -74,7 +74,7 @@ public class PuzzleManager : NetworkBehaviour
         // State 1: Puzzle is fully completed (Matches KeyZone Co-op style!)
         if (Solved)
         {
-            statusText.text = "SUCCESS!\nWAITING FOR OTHER PLAYER";
+            statusText.text = "Korrekt!\nFortsätt till nästa rum";
             statusText.color = successColor;
             return;
         }
@@ -82,7 +82,7 @@ public class PuzzleManager : NetworkBehaviour
         // State 2: Player recently guessed wrong (Flash Error Lockout)
         if (!errorFlashTimer.ExpiredOrNotRunning(Runner))
         {
-            statusText.text = "ERROR: WRONG SEQUENCE";
+            statusText.text = "ERROR: Fel Kombination";
             statusText.color = errorColor;
             return;
         }
