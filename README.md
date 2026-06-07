@@ -112,14 +112,15 @@ Networked state consistency — Photon Fusion 2 was used to ensure stage-complet
 3. Now, when the experience is **set up**, the other two **participants** can join the session by opening the application. The players will load in **approximately 3–5 seconds**. They will hear **sound,** and they both will see the maze in **front** of them, meaning the experience is ready.
 4. Then both players click on the **big red** button in **front** of the maze, and the timer starts, and they are good to go.
 
-This player tries to solve a puzzle by having the other player give information from their point of view.<img width="1357" height="803" alt="Screenshot 2026-06-07 at 20 48 31"
-src="https://github.com/user-attachments/assets/eff1ccb6-bb43-496f-8c9a-cdd8ba0c4d83" />
+This player tries to solve a puzzle by having the other player give information from their point of view.
+/><img width="1451" height="833" alt="Screenshot 2026-06-07 at 20 50 33" src="https://github.com/user-attachments/assets/4a8299d6-6f22-4b4c-bfa5-ad91ce4d0057" 
 
 Similiar interaction they give a "key" controller to trigger something.
-src="https://github.com/user-attachments/assets/75c4814b-e41e-44d8-80b9-e03468e8c62c" />
-<img width="1451" height="833" alt="Screenshot 2026-06-07 at 20 50 33"
-Both players interacts with the handscanner to clear the game.
+<img width="1357" height="803" alt="Screenshot 2026-06-07 at 20 48 31"
+src="https://github.com/user-attachments/assets/eff1ccb6-bb43-496f-8c9a-cdd8ba0c4d83" 
 
+Both players interacts with the handscanner to clear the game.
+/><img width="1357" height="803" alt="Screenshot 2026-06-07 at 20 48 31" src="https://github.com/user-attachments/assets/c1b07856-e795-4392-9112-731950798c0a" />
 ### Software & SDKs
 
 - [Unity Engine](https://unity.com/) — v6000.3.10f1
