@@ -112,15 +112,17 @@ Networked state consistency — Photon Fusion 2 was used to ensure stage-complet
 3. Now, when the experience is **set up**, the other two **participants** can join the session by opening the application. The players will load in **approximately 3–5 seconds**. They will hear **sound,** and they both will see the maze in **front** of them, meaning the experience is ready.
 4. Then both players click on the **big red** button in **front** of the maze, and the timer starts, and they are good to go.
 
-This player tries to solve a puzzle by having the other player give information from their point of view.
-/><img width="1451" height="833" alt="Screenshot 2026-06-07 at 20 50 33" src="https://github.com/user-attachments/assets/4a8299d6-6f22-4b4c-bfa5-ad91ce4d0057" 
 
-Similiar interaction they give a "key" controller to trigger something.
-<img width="1357" height="803" alt="Screenshot 2026-06-07 at 20 48 31"
-src="https://github.com/user-attachments/assets/eff1ccb6-bb43-496f-8c9a-cdd8ba0c4d83" 
-
+They start the game but pushing the big red button
+<img width="946" height="528" alt="Screenshot 2026-06-07 at 20 44 09" src="https://github.com/user-attachments/assets/283f7f7c-4c57-437a-b7fc-fba1495f3fd3" />
 Both players interacts with the handscanner to clear the game.
-/><img width="1357" height="803" alt="Screenshot 2026-06-07 at 20 48 31" src="https://github.com/user-attachments/assets/c1b07856-e795-4392-9112-731950798c0a" />
+<img width="1357" height="803" alt="Screenshot 2026-06-07 at 20 48 31" src="https://github.com/user-attachments/assets/10a709a8-f272-400d-867a-9331f61d01da" />
+Both players help each other collaborate to find the "key".
+<img width="1330" height="803" alt="Screenshot 2026-06-07 at 20 47 53" src="https://github.com/user-attachments/assets/eb40871d-17e9-43de-9fb1-1816ca8e38a3" />
+This player tries to solve a puzzle by having the other player give information from their point of view.
+<img width="1451" height="833" alt="Screenshot 2026-06-07 at 20 50 33" src="https://github.com/user-attachments/assets/6af590d1-f4c4-44d1-9920-34071581f33d" />
+
+
 ### Software & SDKs
 
 - [Unity Engine](https://unity.com/) — v6000.3.10f1
