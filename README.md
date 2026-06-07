@@ -1,13 +1,13 @@
 <p align="center">
-  <img src="Assets/Images/together apart logo.png" alt="Together Apart Logo" width="400"/>
+  <img src="Assets/Images/together apart logo_cropped.png" alt="Together Apart Logo" width="400">
 </p>
 
-<h1 align="center">Together Apart</h1>
-
-<p align="center"><em>"Closer than you think. Further than you see."</em></p>
+<p align="center">
+  <strong>Mixed-Reality Cooperative Escape Room</strong>
+</p>
 
 <p align="center">
-  A cooperative mixed-reality escape room where two physically separated players must communicate to solve puzzles neither can complete alone.
+  <em>"Closer than you think. Further than you see."</em>
 </p>
 
 ---
