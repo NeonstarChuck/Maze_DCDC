@@ -107,10 +107,20 @@ Networked state consistency — Photon Fusion 2 was used to ensure stage-complet
 
 ## Usage
 
-1. The supervisor starts the game on their headset, and places the controller keys in the environment. They can remove the walls temporarily with a virtual button in order to place the controllers in the correct places.
-2. The other two players join the game session on their headsets. They both begin outside of the maze.
-3. They press the big red button to start the timer, and each player a side of the maze to enter, and they begin solving the puzzles.
-4. TODO: Some screenshots of the interactions, showing how it works.
+1. To **start up** the experience, the host joins the session by opening the application. The host will then see the maze spawn in **front** of them and the anchor will be spawned **as well,** meaning the session is now **co-located**.
+2. Before the other **participants join** the session, the host can place two "keys" that are controllers with physical **3D-printed** keys attached. These keys should be placed in the two "?" boxes in the maze for the **participants** to find. **To** place these keys, the host can disable the walls by clicking on the red button behind them. This will disable the walls, **letting** the host place the keys in the "?" boxes.
+3. Now, when the experience is **set up**, the other two **participants** can join the session by opening the application. The players will load in **approximately 3–5 seconds**. They will hear **sound,** and they both will see the maze in **front** of them, meaning the experience is ready.
+4. Then both players click on the **big red** button in **front** of the maze, and the timer starts, and they are good to go.
+
+This player tries to solve a puzzle by having the other player give information from their point of view
+
+Similiar interaction they give a "key" controller to trigger something
+
+Both players interacts with the handscanner to clear the game.<img width="1451" height="833" alt="Screenshot 2026-06-07 at 20 50 33" src="https://github.com/user-attachments/assets/969a1063-086d-4451-bd01-d1f8e5f3f611" />
+<img width="946" height="528" alt="Screenshot 2026-06-07 at 20 44 09" src="https://github.com/user-attachments/assets/56d61ba8-3eaf-4c43-8717-ffe893fea7ab" />
+<img width="1330" height="803" alt="Screenshot 2026-06-07 at 20 47 53" src="https://github.com/user-attachments/assets/974e85e4-f51b-48fe-8e66-634d560a4faf" />
+<img width="1357" height="803" alt="Screenshot 2026-06-07 at 20 48 31" src="https://github.com/user-attachments/assets/5f0f3d79-ca8b-42f4-b325-ffe3739732d0" />
+
 
 
 ### Software & SDKs
