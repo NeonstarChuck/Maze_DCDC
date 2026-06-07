@@ -112,16 +112,15 @@ Networked state consistency — Photon Fusion 2 was used to ensure stage-complet
 3. Now, when the experience is **set up**, the other two **participants** can join the session by opening the application. The players will load in **approximately 3–5 seconds**. They will hear **sound,** and they both will see the maze in **front** of them, meaning the experience is ready.
 4. Then both players click on the **big red** button in **front** of the maze, and the timer starts, and they are good to go.
 
-This player tries to solve a puzzle by having the other player give information from their point of view
-
-Similiar interaction they give a "key" controller to trigger something
-
-Both players interacts with the handscanner to clear the game.<img width="1451" height="833" alt="Screenshot 2026-06-07 at 20 50 33" src="https://github.com/user-attachments/assets/969a1063-086d-4451-bd01-d1f8e5f3f611" />
-<img width="946" height="528" alt="Screenshot 2026-06-07 at 20 44 09" src="https://github.com/user-attachments/assets/56d61ba8-3eaf-4c43-8717-ffe893fea7ab" />
-<img width="1330" height="803" alt="Screenshot 2026-06-07 at 20 47 53" src="https://github.com/user-attachments/assets/974e85e4-f51b-48fe-8e66-634d560a4faf" />
-<img width="1357" height="803" alt="Screenshot 2026-06-07 at 20 48 31" src="https://github.com/user-attachments/assets/5f0f3d79-ca8b-42f4-b325-ffe3739732d0" />
+This player tries to solve a puzzle by having the other player give information from their point of view.<img width="1357" height="803" alt="Screenshot 2026-06-07 at 20 48 31" src="https://github.com/user-attachments/assets/75c4814b-e41e-44d8-80b9-e03468e8c62c" />
+<img width="1451" height="833" alt="Screenshot 2026-06-07 at 20 50 33" src="https://github.com/user-attachments/assets/d5e5752d-9456-439e-8d9e-6fb3183bfbbc" /><img width="1330" height="803" alt="Screenshot 2026-06-07 at 20 47 53" src="https://github.com/user-attachments/assets/eff1ccb6-bb43-496f-8c9a-cdd8ba0c4d83" />
+![Uploading Screenshot 2026-06-07 at 20.48.31.png…]()
 
 
+
+Similiar interaction they give a "key" controller to trigger something.
+
+Both players interacts with the handscanner to clear the game.
 
 ### Software & SDKs
 
