@@ -114,12 +114,11 @@ Networked state consistency — Photon Fusion 2 was used to ensure stage-complet
 
 This player tries to solve a puzzle by having the other player give information from their point of view.<img width="1357" height="803" alt="Screenshot 2026-06-07 at 20 48 31"
 src="https://github.com/user-attachments/assets/eff1ccb6-bb43-496f-8c9a-cdd8ba0c4d83" />
-![Uploading Screenshot 2026-06-07 at 20.48.31.png…]()
+
 Similiar interaction they give a "key" controller to trigger something.
 src="https://github.com/user-attachments/assets/75c4814b-e41e-44d8-80b9-e03468e8c62c" />
 <img width="1451" height="833" alt="Screenshot 2026-06-07 at 20 50 33"
 Both players interacts with the handscanner to clear the game.
-src="https://github.com/user-attachments/assets/d5e5752d-9456-439e-8d9e-6fb3183bfbbc" /><img width="1330" height="803" alt="Screenshot 2026-06-07 at 20 47 53" 
 
 ### Software & SDKs
 
